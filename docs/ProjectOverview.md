@@ -1,4 +1,4 @@
-<h1 align = "center">NexTranlation</h1>  
+<h1 align = "center">NexTranslation</h1>  
 
 ## 1. 项目概述
 

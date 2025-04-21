@@ -284,9 +284,6 @@ def progress_callback(current: int, total: int):
 
 async def main():
     """使用示例"""
-    # 设置PDF文件路径 - 使用原始字符串避免转义问题
-    pdf_path = r"C:\Users\yuanlin cao\NexTranslation\test\translate.cli.text.with.figure.pdf"
-    
     # 配置
     config = PDFConfig(
         output_format=OutputFormat.TEXT,
@@ -297,6 +294,7 @@ async def main():
     )
     
     # 使用上下文管理器处理PDF
+    pdf_path = "./test/file/translate.cli.text.with.figure.pdf"  # 替换为实际的PDF文件路径
     parser = PDFParser(pdf_path, config)
     
     # 处理PDF

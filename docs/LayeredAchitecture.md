@@ -18,8 +18,6 @@
 
 桌面应用：如果使用Python开发桌面应用，可以使用Tkinter或PyQt。
 
-Web应用：如果希望有更灵活的跨平台支持，可以选择Web应用框架，如Flask、Django。
-
 - 交互流程：
 
 用户选择PDF文件。

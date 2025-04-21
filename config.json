@@ -1,0 +1,21 @@
+{
+    "translators": [
+        {
+            "name": "openai",
+            "envs": {
+                "OPENAI_API_KEY": "your-api-key",
+                "OPENAI_MODEL": "gpt-4"
+            }
+        },
+        {
+            "name": "deepl",
+            "envs": {
+                "DEEPL_API_KEY": "your-deepl-key"
+            }
+        }
+    ],
+    "PDF2ZH_LANG_FROM": "English",
+    "PDF2ZH_LANG_TO": "Simplified Chinese",
+    "ENABLED_SERVICES": ["OpenAI", "DeepL"],
+    "HIDDEN_GRADIO_DETAILS": true
+}

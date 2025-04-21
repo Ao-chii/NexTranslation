@@ -1,0 +1,34 @@
+nex_translation/
+├── docs/
+│   ├── Requirements.md
+│   ├── LayeredArchitecture.md
+│   └── ProjectOverview.md
+├── src/
+│   ├── nex_translation/
+│   │   ├── __init__.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── pdf_processor.py     # PDF解析与处理
+│   │   │   ├── translator.py        # 翻译服务集成
+│   │   │   └── document_builder.py  # 文档重构生成
+│   │   ├── infrastructure/
+│   │   │   ├── __init__.py
+│   │   │   ├── cache.py            # 本地缓存
+│   │   │   └── config.py           # 配置管理
+│   │   ├── presentation/
+│   │   │   ├── __init__.py
+│   │   │   ├── gui.py              # Gradio界面
+│   │   │   └── cli.py              # 命令行接口
+│   │   └── utils/
+│   │       ├── __init__.py
+│   │       ├── logger.py           # 日志工具
+│   │       └── exceptions.py       # 异常定义
+├── tests/                          # 单元测试
+│   ├── __init__.py
+│   ├── test_pdf_processor.py
+│   └── test_translator.py
+├── examples/                       # 示例文件
+│   └── sample.pdf
+├── README.md
+├── pyproject.toml                  # 项目配置和依赖
+└── setup.py                        # 安装脚本

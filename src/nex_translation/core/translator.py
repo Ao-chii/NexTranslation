@@ -3,6 +3,11 @@ from typing import Dict, Any, Optional
 from string import Template
 import logging
 from ..infrastructure.cache import TranslationCache
+from ..infrastructure.config import ConfigManager
+from copy import copy
+import os
+
+logger = logging.getLogger(__name__)
 
 class BaseTranslator(ABC):
     """翻译器基类"""
@@ -36,8 +41,48 @@ class BaseTranslator(ABC):
 
     def set_envs(self, envs: Optional[Dict] = None):
         """设置环境变量"""
-        if envs:
-            self.envs.update(envs)
+        try:
+            # 使用单例模式获取配置管理器实例
+            config_manager = ConfigManager.get_instance()
+            
+            # 复制类默认值
+            self.envs = copy(self.envs)
+            
+            # 获取配置文件中的设置
+            try:
+                saved_config = config_manager.get_translator_config(self.name)
+                if saved_config:
+                    self.envs.update(saved_config)
+            except Exception as e:
+                logger.warning(f"Failed to load config for {self.name}: {str(e)}")
+            
+            # 检查环境变量是否有更新
+            need_update = False
+            for key in self.envs:
+                if key in os.environ:
+                    if self.envs[key] != os.environ[key]:
+                        self.envs[key] = os.environ[key]
+                        need_update = True
+            
+            # 如果环境变量有更新，保存到配置文件
+            if need_update:
+                try:
+                    config_manager.update_translator_config(self.name, self.envs)
+                except Exception as e:
+                    logger.warning(f"Failed to save updated config for {self.name}: {str(e)}")
+            
+            # 处理传入的配置参数
+            if envs:
+                self.envs.update(envs)
+                try:
+                    config_manager.update_translator_config(self.name, self.envs)
+                except Exception as e:
+                    logger.warning(f"Failed to save config with new envs for {self.name}: {str(e)}")
+                
+        except Exception as e:
+            logger.error(f"Error in set_envs for {self.name}: {str(e)}")
+            raise e
+
 
     def add_cache_impact_parameters(self, k: str, v: Any):
         """添加影响翻译质量的参数以区分不同参数下的翻译效果"""

@@ -1,34 +1,37 @@
 nex_translation/
 ├── docs/
-│   ├── Requirements.md
-│   ├── LayeredArchitecture.md
-│   └── ProjectOverview.md
+│   ├── Requirements.md          # 需求文档
+│   ├── LayeredArchitecture.md   # 架构设计
+│   └── ProjectOverview.md       # 项目概述
 ├── src/
 │   ├── nex_translation/
 │   │   ├── __init__.py
-│   │   ├── core/
+│   │   ├── core/               # 核心业务逻辑层
 │   │   │   ├── __init__.py
 │   │   │   ├── pdf_processor.py     # PDF解析与处理
 │   │   │   ├── translator.py        # 翻译服务集成
+│   │   │   ├── google_translator.py   # Google翻译实现
+│   │   │   ├── deep_l_translator.py   # DeepL翻译实现
+│   │   │   ├── openai_translator.py
 │   │   │   └── document_builder.py  # 文档重构生成
-│   │   ├── infrastructure/
+│   │   ├── infrastructure/     # 基础设施层
 │   │   │   ├── __init__.py
 │   │   │   ├── cache.py            # 本地缓存
 │   │   │   └── config.py           # 配置管理
-│   │   ├── presentation/
+│   │   ├── presentation/      # 表现层
 │   │   │   ├── __init__.py
-│   │   │   ├── gui.py              # Gradio界面
-│   │   │   └── cli.py              # 命令行接口
-│   │   └── utils/
+│   │   │   ├── gui.py             # Gradio界面
+│   │   │   └── cli.py             # 命令行接口
+│   │   └── utils/             # 工具类
 │   │       ├── __init__.py
-│   │       ├── logger.py           # 日志工具
-│   │       └── exceptions.py       # 异常定义
-├── tests/                          # 单元测试
+│   │       ├── logger.py          # 日志工具
+│   │       └── exceptions.py      # 异常定义
+├── tests/                     # 测试目录
 │   ├── __init__.py
 │   ├── test_pdf_processor.py
 │   └── test_translator.py
-├── examples/                       # 示例文件
+├── examples/                  # 示例文件
 │   └── sample.pdf
 ├── README.md
-├── pyproject.toml                  # 项目配置和依赖
-└── setup.py                        # 安装脚本
+├── pyproject.toml            # 项目配置
+└── setup.py                  # 安装脚本

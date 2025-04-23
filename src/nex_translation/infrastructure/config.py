@@ -5,6 +5,7 @@ import json
 import os
 import logging
 from typing import Any, Dict, Optional
+import copy
 
 # 创建Logger对象
 logger = logging.getLogger(__name__)
@@ -12,12 +13,20 @@ logger = logging.getLogger(__name__)
 class ConfigManager:
     _instance = None
     _lock = RLock()
-    
-    def __new__(cls):
-        with cls._lock:
-            if cls._instance is None:
-                cls._instance = super().__new__(cls)
-            return cls._instance
+
+    @staticmethod
+    def normalize_service_name(service_name: str) -> str:
+        """规范化服务名称"""
+        return service_name.lower().strip()
+
+    @classmethod
+    def get_instance(cls):
+        """获取单例实例"""
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = cls()
+        return cls._instance
 
     def __init__(self):
         if hasattr(self, "_initialized") and self._initialized:
@@ -54,7 +63,7 @@ class ConfigManager:
                             }
                         }
                     ],
-                    "ENABLED_SERVICES": ["Google", "OpenAI", "DeepL"],  # 默认启用的翻译服务
+                    "ENABLED_SERVICES": ["google", "openai", "deepl"],  # 默认启用的翻译服务
                     "DEFAULT_SERVICE": "google"  # 设置默认翻译服务为谷歌翻译
                 }
                 self._save_config()
@@ -63,31 +72,42 @@ class ConfigManager:
 
     def get_translator_config(self, translator_name: str) -> Dict[str, Any]:
         """获取指定翻译器的配置"""
-        for translator in self._config_data.get("translators", []):
-            if translator["name"] == translator_name:
-                return translator
-        return {"name": translator_name, "envs": {}}
+        normalized_name = self.normalize_service_name(translator_name)
+        translators = self._config_data.get("translators", [])
+        for translator in translators:
+            if self.normalize_service_name(translator.get("name")) == normalized_name:
+                return translator.get("envs", {})
+        return {}
 
     def get_default_service(self) -> str:
         """获取默认翻译服务"""
-        return self._config_data.get("DEFAULT_SERVICE", "google")
+        service = self._config_data.get("DEFAULT_SERVICE", "google")
+        return self.normalize_service_name(service)
 
     def get_enabled_services(self) -> list:
         """获取启用的翻译服务列表"""
-        return self._config_data.get("ENABLED_SERVICES", ["Google"])
+        services = self._config_data.get("ENABLED_SERVICES", ["google"])
+        return [self.normalize_service_name(s) for s in services]
 
-    def update_translator_config(self, translator_name: str, config: Dict[str, Any]):
+    def update_translator_config(self, translator_name: str, new_translator_envs: Dict[str, Any]):
         """更新翻译器配置"""
-        for translator in self._config_data.get("translators", []):
-            if translator["name"] == translator_name:
-                translator.update(config)
-                self._save_config()
-                return
-        self._config_data["translators"].append({
-            "name": translator_name,
-            **config
-        })
-        self._save_config()
+        normalized_name = self.normalize_service_name(translator_name)
+        with self._lock:
+            translators = self._config_data.get("translators", [])
+            for translator in translators:
+                if self.normalize_service_name(translator.get("name")) == normalized_name:
+                    translator["envs"] = copy.deepcopy(new_translator_envs)
+                    self._save_config()
+                    return
+            
+            if "translators" not in self._config_data:
+                self._config_data["translators"] = []
+                
+            self._config_data["translators"].append({
+                "name": normalized_name,
+                "envs": copy.deepcopy(new_translator_envs)
+            })
+            self._save_config()
 
     def set_default_service(self, service_name: str):
         """设置默认翻译服务"""
@@ -96,12 +116,13 @@ class ConfigManager:
 
     def _save_config(self):
         """保存配置到文件"""
-        try:
-            with open(self._config_path, 'w', encoding='utf-8') as f:
-                json.dump(self._config_data, f, indent=4, ensure_ascii=False)
-        except Exception as e:
-            logger.error(f"Failed to save config: {str(e)}")
-            raise
+        with self._lock:
+            try:
+                with open(self._config_path, 'w', encoding='utf-8') as f:
+                    json.dump(self._config_data, f, indent=4, ensure_ascii=False)
+            except Exception as e:
+                logger.error(f"Failed to save config: {str(e)}")
+                raise
 
     def _load_config(self):
         """从文件加载配置"""

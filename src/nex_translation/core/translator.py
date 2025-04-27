@@ -6,8 +6,9 @@ from ..infrastructure.cache import TranslationCache
 from ..infrastructure.config import ConfigManager
 from copy import copy
 import os
+from ..utils.logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class BaseTranslator(ABC):
     """翻译器基类"""

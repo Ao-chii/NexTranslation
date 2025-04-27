@@ -11,7 +11,7 @@ nex_translation/
 │   │   │   ├── pdf_processor.py     # PDF解析与处理
 │   │   │   ├── translator.py        # 翻译服务集成
 │   │   │   ├── google_translator.py   # Google翻译实现
-│   │   │   ├── deep_l_translator.py   # DeepL翻译实现
+│   │   │   ├── deepl_translator.py   # DeepL翻译实现
 │   │   │   ├── openai_translator.py
 │   │   │   └── document_builder.py  # 文档重构生成
 │   │   ├── infrastructure/     # 基础设施层

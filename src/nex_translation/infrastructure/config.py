@@ -1,18 +1,22 @@
-# 使用单例模式 (Singleton Pattern) 实现配置管理器
 from pathlib import Path
 from threading import RLock
 import json
-import os
 import logging
 from typing import Any, Dict, Optional
 import copy
 
-# 创建Logger对象
+# 创建Logger对象进行日志记录
 logger = logging.getLogger(__name__)
 
 class ConfigManager:
-    _instance = None
-    _lock = RLock()
+    """配置管理器(单例模式实现)
+    核心职责：
+    1. 管理应用配置
+    2. 确保配置一致性
+    3. 提供线程安全的配置访问
+    """
+    _instance = None 
+    _lock = RLock()  # 使用RLock以支持同一线程多次获取
 
     @staticmethod
     def normalize_service_name(service_name: str) -> str:
@@ -21,7 +25,12 @@ class ConfigManager:
 
     @classmethod
     def get_instance(cls):
-        """获取单例实例"""
+        """
+        双重检查锁定(Double-Checked Locking)实现单例：
+        1. 首次检查：避免不必要的锁获取
+        2. 加锁：确保线程安全
+        3. 二次检查：防止竞态条件
+        """
         if cls._instance is None:
             with cls._lock:
                 if cls._instance is None:
@@ -29,6 +38,13 @@ class ConfigManager:
         return cls._instance
 
     def __init__(self):
+        """
+        初始化策略：
+        1. 防重复初始化检查
+        2. 设置配置文件路径
+        3. 初始化配置数据
+        4. 确保配置文件存在
+        """
         if hasattr(self, "_initialized") and self._initialized:
             return
         self._initialized = True
@@ -38,11 +54,21 @@ class ConfigManager:
         self._ensure_config_exists()
 
     def _ensure_config_exists(self, isInit=True):
-        """确保配置文件存在，如果不存在则创建默认配置"""
+        """
+        配置文件管理策略：
+        1. 首次运行：创建默认配置
+        2. 正常运行：加载已有配置
+        3. 配置验证：确保必要配置存在
+        
+        默认配置结构：
+        - translators: 翻译服务配置列表
+        - ENABLED_SERVICES: 启用的服务列表
+        - DEFAULT_SERVICE: 默认翻译服务
+        """
         if not self._config_path.exists():
             if isInit:
                 self._config_path.parent.mkdir(parents=True, exist_ok=True)
-                # 简化的默认配置，专注于英译中
+                # 默认配置，专注于英译中
                 self._config_data = {
                     "translators": [
                         {
@@ -71,7 +97,12 @@ class ConfigManager:
                 raise ValueError(f"Config file {self._config_path} not found!")
 
     def get_translator_config(self, translator_name: str) -> Dict[str, Any]:
-        """获取指定翻译器的配置"""
+        """
+        翻译器配置获取逻辑：
+        1. 标准化服务名称
+        2. 查找匹配配置
+        3. 返回环境变量配置
+        """
         normalized_name = self.normalize_service_name(translator_name)
         translators = self._config_data.get("translators", [])
         for translator in translators:

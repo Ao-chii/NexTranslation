@@ -1,3 +1,6 @@
+# 对外主要暴露的类：TranslateConverter 提供给pdf_processor.py 
+#TranslateConverter 用于接收pdfminer解析的pdf内容流(作为输入)，进行翻译，输出翻译后的pdf内容流
+
 import concurrent.futures
 import logging
 import re
@@ -31,7 +34,7 @@ class PDFConverterEx(PDFConverter):
         rsrcmgr: PDFResourceManager,
     ) -> None:
         PDFConverter.__init__(self, rsrcmgr, None, "utf-8", 1, None)
-
+    # 重载开始页面
     def begin_page(self, page, ctm) -> None:
         # 重载替换 cropbox
         (x0, y0, x1, y1) = page.cropbox
@@ -57,7 +60,7 @@ class PDFConverterEx(PDFConverter):
         self.cur_item = self._stack.pop()
         self.cur_item.add(fig)
         return self.receive_layout(fig)
-
+    # 重载渲染字符
     def render_char(
         self,
         matrix,
@@ -94,7 +97,7 @@ class PDFConverterEx(PDFConverter):
         item.font = font  # hack 插入原字符字体
         return item.adv
 
-
+# 段落类定义
 class Paragraph:
     def __init__(self, y, x, x0, x1, y0, y1, size, brk):
         self.y: float = y  # 初始纵坐标
@@ -107,7 +110,7 @@ class Paragraph:
         self.brk: bool = brk  # 换行标记
 
 
-# fmt: off
+# 主要类
 class TranslateConverter(PDFConverterEx):
     def __init__(
         self,

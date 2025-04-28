@@ -32,6 +32,7 @@ from babeldoc.assets.assets import get_font_and_metadata
 from nex_translation.core.doclayout import OnnxModel
 from nex_translation.core.converter import TranslateConverter 
 from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
+from nex_translation. infrastructure.config import ConfigManager
 
 NOTO_NAME = "noto"
 

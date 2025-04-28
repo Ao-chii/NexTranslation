@@ -28,9 +28,10 @@ from pdfminer.pdfparser import PDFParser
 from pymupdf import Document, Font
 from babeldoc.assets.assets import get_font_and_metadata
 
-from core.doclayout import OnnxModel
-from core.converter import TranslateConverter 
-from core.pdfinterpreter import PDFPageInterpreterEx
+# 修改为绝对导入
+from nex_translation.core.doclayout import OnnxModel
+from nex_translation.core.converter import TranslateConverter 
+from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
 
 NOTO_NAME = "noto"
 

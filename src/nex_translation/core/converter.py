@@ -18,12 +18,13 @@ from pdfminer.utils import apply_matrix_pt, mult_matrix
 from pymupdf import Font
 from tenacity import retry, wait_fixed
 
-from core.translator import (
+from nex_translation.core.translator import (
     DeepLTranslator,
     BaseTranslator,
     GoogleTranslator,
     OpenAITranslator,
 )
+from nex_translation.core.pdfinterpreter import PDFConverterEx
 
 log = logging.getLogger(__name__)
 

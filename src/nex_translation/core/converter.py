@@ -19,7 +19,7 @@ from pymupdf import Font
 from tenacity import retry, wait_fixed
 
 from nex_translation.core.translator import (
-    DeepLTranslator,
+
     BaseTranslator,
     GoogleTranslator,
     OpenAITranslator,

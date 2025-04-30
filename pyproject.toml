@@ -1,0 +1,16 @@
+[project]
+name = "nex_translation"
+version = "0.1.0"
+description = "An intelligent PDF translation tool"
+requires-python = ">=3.10"
+dependencies = [
+    "pymupdf<1.25.3",
+    "google",
+    "openai",
+    "deepl",
+    "gradio",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

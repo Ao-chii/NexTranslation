@@ -226,7 +226,7 @@ class PDFPageInterpreterEx(PDFPageInterpreter):
             )
             self.ncs = interpreter.ncs
             self.scs = interpreter.scs
-            try:  # 有的时候 form 字体加不上这里会烂掉
+            try: 
                 self.device.fontid = interpreter.fontid
                 self.device.fontmap = interpreter.fontmap
                 ops_new = self.device.end_figure(xobjid)

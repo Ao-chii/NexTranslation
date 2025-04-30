@@ -12,12 +12,23 @@ logger = logging.getLogger(__name__)
 
 # 自定义样式
 CUSTOM_CSS = """
-.container {
-    max-width: 1200px;
-    margin: auto;
+.container {  # 容器的最大宽度为1000像素，居中显示，内边距为20像素，字体为Arial或sans-serif。
+    max-width: 1000px;  # 容器的最大宽度为1000像素，居中显示，内边距为20像素，字体为Arial或sans-serif。
+    margin: auto;  # 自动居中显示。
+    padding: 20px;  # 内边距为20像素。
+    font-family: Arial, sans-serif;
 }
-.output-panel {
-    min-height: 400px;
+.output-panel {  # 输出面板的最小高度为400像素。
+    min-height: 400px;  # 最小高度为400像素。
+}
+.gradio-button {  # 按钮的宽度为200像素，上边距为10像素。
+    width: 200px;  # 宽度为200像素。
+    margin-top: 10px;  # 上边距为10像素。
+}
+#pdf-preview {  # PDF预览的宽度为100%，最大高度为600像素，下边距为20像素。
+    width: 100%;  # 宽度为100%。
+    max-height: 600px;  # 最大高度为600像素。
+    margin-bottom: 20px;  # 下边距为20像素。
 }
 """
 
@@ -33,7 +44,7 @@ class TranslationService:
         }
         
         self.supported_languages = {
-            "en": "English",
+            "英文": "English",
             "中文": "简体中文"
         }
 
@@ -55,15 +66,15 @@ class PDFTranslator:
     def create_interface(self):
         """创建Gradio界面"""
         with gr.Blocks(css=CUSTOM_CSS) as interface:
-            gr.Markdown("# PDF翻译工具")
+            gr.Markdown("# PDF翻译工具", elem_id="title")
             
             with gr.Row():
-                with gr.Column(scale=2):
+                with gr.Column(scale=2, min_width=400):
                     # 输入区域
                     file_input = gr.File(
                         label="选择PDF文件",
                         file_types=[".pdf"],
-                        type="binary"  # 修改这里，改为binary
+                        type="binary"
                     )
                     
                     with gr.Row():
@@ -106,12 +117,12 @@ class PDFTranslator:
                     
                     with gr.Row():
                         # 控制按钮
-                        translate_btn = gr.Button("开始翻译", variant="primary")
-                        cancel_btn = gr.Button("取消", variant="secondary")
+                        translate_btn = gr.Button("开始翻译", variant="primary", elem_id="translate-btn")
+                        cancel_btn = gr.Button("取消", variant="secondary", elem_id="cancel-btn")
                 
-                with gr.Column(scale=3):
+                with gr.Column(scale=3, min_width=600):
                     # 预览区域
-                    preview = PDF(label="预览", visible=False)
+                    preview = PDF(label="预览", visible=False, elem_id="pdf-preview")
                     output_file = gr.File(label="下载翻译结果")
             
             # 事件处理

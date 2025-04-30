@@ -19,12 +19,10 @@ from pymupdf import Font
 from tenacity import retry, wait_fixed
 
 from nex_translation.core.translator import (
-
     BaseTranslator,
     GoogleTranslator,
     OpenAITranslator,
 )
-from nex_translation.core.pdfinterpreter import PDFConverterEx
 
 log = logging.getLogger(__name__)
 

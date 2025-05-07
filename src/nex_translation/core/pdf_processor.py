@@ -27,9 +27,9 @@ from pdfminer.pdfparser import PDFParser
 from pymupdf import Document
 from babeldoc.assets.assets import get_font_and_metadata
 
-from core.doclayout import OnnxModel
-from core.converter import TranslateConverter 
-from core.pdfinterpreter import PDFPageInterpreterEx
+from .doclayout import OnnxModel
+from .converter import TranslateConverter 
+from .pdfinterpreter import PDFPageInterpreterEx
 
 from ..utils.exceptions import (
     PDFError,

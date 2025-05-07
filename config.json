@@ -12,10 +12,14 @@
             "envs": {
                 "DEEPL_API_KEY": "your-deepl-key"
             }
+        },
+        {
+            "name": "google",
+            "envs": {}
         }
     ],
-    "PDF2ZH_LANG_FROM": "English",
-    "PDF2ZH_LANG_TO": "Simplified Chinese",
-    "ENABLED_SERVICES": ["OpenAI", "DeepL"],
+    "PDF_LANG_FROM": "English",
+    "PDF_LANG_TO": "Simplified Chinese",
+    "ENABLED_SERVICES": ["openai", "deepl","google"],
     "HIDDEN_GRADIO_DETAILS": true
 }

@@ -27,11 +27,9 @@ from pdfminer.pdfparser import PDFParser
 from pymupdf import Document
 from babeldoc.assets.assets import get_font_and_metadata
 
-# 修改为绝对导入
-from nex_translation.core.doclayout import OnnxModel
-from nex_translation.core.converter import TranslateConverter 
-from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
-from nex_translation. infrastructure.config import ConfigManager
+from .doclayout import OnnxModel
+from .converter import TranslateConverter 
+from .pdfinterpreter import PDFPageInterpreterEx
 
 from ..utils.exceptions import (
     PDFError,

@@ -122,8 +122,8 @@ class PDFTranslator:
                 
                 with gr.Column(scale=3, min_width=600):
                     # 预览区域
-                    preview = PDF(label="预览", visible=False, elem_id="pdf-preview")
-                    output_file = gr.File(label="下载翻译结果")
+                    preview = PDF(label="预览", elem_id="pdf-preview")
+                    output_file = gr.File(label="翻译结果")
             
             # 事件处理
             def update_api_key_visibility(service):

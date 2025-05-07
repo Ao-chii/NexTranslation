@@ -1,0 +1,15 @@
+2025-04-30 17:18:41,310 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-04-30 17:20:33,153 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-04-30 17:20:48,467 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-04-30 17:22:41,522 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-04-30 17:22:41,529 [INFO] nex_translation.nex_translation:142 - 启动 NexTranslation v0.1.0
+2025-04-30 17:23:34,270 [INFO] nex_translation.nex_translation:151 - 布局分析模型已加载。
+2025-04-30 17:23:34,270 [INFO] nex_translation.nex_translation:159 - 使用的翻译服务: google
+2025-04-30 17:23:34,279 [INFO] nex_translation.nex_translation:166 - 翻译所有页面。
+2025-04-30 17:23:34,280 [INFO] nex_translation.nex_translation:185 - 输出目录: D:\GitRepo\NexTranslation\output
+2025-04-30 17:23:34,280 [INFO] nex_translation.nex_translation:188 - 正在处理 1 个文件...
+2025-04-30 17:23:40,947 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/21071/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-04-30 17:23:41,024 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 1 pages
+2025-04-30 17:23:41,411 [ERROR] nex_translation.nex_translation.core.pdf_processor:163 - Error processing page 0: 'LTPage' object has no attribute 'pageno'
+2025-04-30 17:23:41,411 [ERROR] nex_translation.nex_translation.core.pdf_processor:171 - PDF translation failed: Failed to extract text content from page 0
+2025-04-30 17:23:41,419 [ERROR] nex_translation.nex_translation:219 - 发生错误: Failed to extract text content from page 0

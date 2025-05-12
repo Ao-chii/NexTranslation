@@ -18,8 +18,8 @@ from pdfminer.utils import apply_matrix_pt, mult_matrix
 from pymupdf import Font
 from tenacity import retry, wait_fixed
 
-from .translator import BaseTranslator
-from .google_translator import GoogleTranslator
+from nex_translation.core.translator import BaseTranslator
+from nex_translation.core.google_translator import GoogleTranslator
 from ..utils.logger import get_logger
 from ..utils.exceptions import (
     TranslationError,

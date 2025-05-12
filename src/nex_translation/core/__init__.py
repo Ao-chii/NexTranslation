@@ -1,5 +1,5 @@
 import logging
-from pdf2zh.high_level import translate, translate_stream
+from nex_translation.core.pdf_processor import translate, translate_stream
 
 log = logging.getLogger(__name__)
 

@@ -1,753 +1,270 @@
-from nex_translation.core.pdf_processor import translate_stream, translate
-from nex_translation.core.converter import TranslateConverter
-from nex_translation.core.doclayout import OnnxModel, ModelInstance
-from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
-from nex_translation.core.google_translator import GoogleTranslator
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from nex_translation.infrastructure.config import ConfigManager
-from babeldoc.assets.assets import get_font_and_metadata
-import asyncio
-import cgi
+"""
+NexTranslation GUI模块
+使用Gradio提供图形用户界面
+"""
+
 import os
-import shutil
-from tracemalloc import Snapshot
-import uuid
-from asyncio import CancelledError
+import sys
+import time
+import asyncio
+import tempfile
+import logging
 from pathlib import Path
-import typing as T
+from typing import List, Dict, Any, Optional, Tuple, Callable
+from string import Template
 
 import gradio as gr
-import requests
 import tqdm
-from gradio_pdf import PDF
-from string import Template
-import logging
+from tqdm.asyncio import tqdm as async_tqdm
 
-# 配置日志
-logger = logging.getLogger(__name__)
+from ..utils.logger import get_logger
+from ..infrastructure.config import ConfigManager
+from ..core.pdf_processor import translate
+from ..core.doclayout import OnnxModel, ModelInstance
 
-import asyncio
-import cgi
-import os
-import shutil
-from tracemalloc import Snapshot
-import uuid
-from asyncio import CancelledError
-from pathlib import Path
-import typing as T
+# 获取日志记录器
+logger = get_logger(__name__)
 
-import gradio as gr
-import requests
-import tqdm
-from gradio_pdf import PDF
-from string import Template
-import logging
+class TranslationProgress:
+    """翻译进度跟踪类"""
+    def __init__(self):
+        self.progress = 0.0
+        self.status = "准备中..."
+        self.is_cancelled = False
+        self.cancellation_event = asyncio.Event()
+    
+    def update(self, progress_bar: tqdm.tqdm) -> None:
+        """更新进度"""
+        self.progress = progress_bar.n / progress_bar.total if progress_bar.total else 0
+        self.status = f"正在翻译... {int(self.progress * 100)}%"
+        
+    def cancel(self) -> None:
+        """取消翻译"""
+        self.is_cancelled = True
+        self.cancellation_event.set()
+        self.status = "已取消"
+        
+    def reset(self) -> None:
+        """重置进度"""
+        self.progress = 0.0
+        self.status = "准备中..."
+        self.is_cancelled = False
+        self.cancellation_event = asyncio.Event()
 
-from nex_translation import __version__
-from nex_translation.core.pdf_processor import translate
-from nex_translation.core.doclayout import ModelInstance
-from nex_translation.infrastructure.config import ConfigManager
-from nex_translation.core.translator import BaseTranslator
-
-logger = logging.getLogger(__name__)
-from babeldoc.docvision.doclayout import OnnxModel
-
-BABELDOC_MODEL = OnnxModel.load_available()
-# The following variables associate strings with translators
-service_map: dict[str, BaseTranslator] = {
-    "Google": GoogleTranslator,
-
-}
-
-# The following variables associate strings with specific languages
-lang_map = {
-    "Simplified Chinese": "zh",
-    "Traditional Chinese": "zh-TW",
-    "English": "en",
-    "French": "fr",
-    "German": "de",
-    "Japanese": "ja",
-    "Korean": "ko",
-    "Russian": "ru",
-    "Spanish": "es",
-    "Italian": "it",
-}
-
-# The following variable associate strings with page ranges
-page_map = {
-    "All": None,
-    "First": [0],
-    "First 5 pages": list(range(0, 5)),
-    "Others": None,
-}
-
-# Check if this is a public demo, which has resource limits
-flag_demo = False
-
-# 获取ConfigManager实例
-config_manager = ConfigManager.get_instance()
-
-# Limit resources
-# 检查环境变量或配置文件中是否有PDF2ZH_DEMO设置
-import os
-if os.environ.get("PDF2ZH_DEMO", "").lower() in ("true", "1", "yes"):
-    flag_demo = True
-    service_map = {
-        "Google": GoogleTranslator,
+def setup_gui(server_name: str = "0.0.0.0", server_port: int = 7860) -> None:
+    """
+    设置并启动GUI界面
+    
+    Args:
+        server_name: 服务器名称/IP
+        server_port: 服务器端口
+    """
+    # 获取配置管理器
+    config_manager = ConfigManager.get_instance()
+    
+    # 获取已启用的翻译服务
+    enabled_services = config_manager.get_enabled_services()
+    default_service = config_manager.get_default_service()
+    
+    # 获取配置中的语言设置
+    pdf_lang_from = config_manager._config_data.get("PDF_LANG_FROM", "English")
+    pdf_lang_to = config_manager._config_data.get("PDF_LANG_TO", "Simplified Chinese")
+    
+    # 语言映射
+    language_map = {
+        "English": "en",
+        "Chinese": "zh",
+        "Simplified Chinese": "zh-CN",
+        "Traditional Chinese": "zh-TW",
+        "Japanese": "ja",
+        "Korean": "ko",
+        "French": "fr",
+        "German": "de",
+        "Spanish": "es",
+        "Russian": "ru"
     }
-    page_map = {
-        "First": [0],
-        "First 20 pages": list(range(0, 20)),
-    }
-    client_key = os.environ.get("PDF2ZH_CLIENT_KEY", "")
-    server_key = os.environ.get("PDF2ZH_SERVER_KEY", "")
-
-
-# Limit Enabled Services
-# 从环境变量或配置文件中获取启用的服务
-enabled_services: T.Optional[T.List[str]] = config_manager.get_enabled_services()
-if isinstance(enabled_services, list):
-    default_services = ["Google", "Bing"]
-    enabled_services_names = [str(_).lower().strip() for _ in enabled_services]
-    enabled_services = [
-        k
-        for k in service_map.keys()
-        if str(k).lower().strip() in enabled_services_names
-    ]
-    if len(enabled_services) == 0:
-        raise RuntimeError(f"No services available.")
-    enabled_services = default_services + enabled_services
-else:
-    enabled_services = list(service_map.keys())
-
-
-# Configure about Gradio show keys
-hidden_gradio_details: bool = bool(os.environ.get("HIDDEN_GRADIO_DETAILS", ""))
-
-
-# Public demo control
-def verify_recaptcha(response):
-    """
-    This function verifies the reCAPTCHA response.
-    """
-    recaptcha_url = "https://www.google.com/recaptcha/api/siteverify"
-    data = {"secret": server_key, "response": response}
-    result = requests.post(recaptcha_url, data=data).json()
-    return result.get("success")
-
-
-def download_with_limit(url: str, save_path: str, size_limit: int) -> str:
-    """
-    This function downloads a file from a URL and saves it to a specified path.
-
-    Inputs:
-        - url: The URL to download the file from
-        - save_path: The path to save the file to
-        - size_limit: The maximum size of the file to download
-
-    Returns:
-        - The path of the downloaded file
-    """
-    chunk_size = 1024
-    total_size = 0
-    with requests.get(url, stream=True, timeout=10) as response:
-        response.raise_for_status()
-        content = response.headers.get("Content-Disposition")
-        try:  # filename from header
-            _, params = cgi.parse_header(content)
-            filename = params["filename"]
-        except Exception:  # filename from url
-            filename = os.path.basename(url)
-        filename = os.path.splitext(os.path.basename(filename))[0] + ".pdf"
-        with open(save_path / filename, "wb") as file:
-            for chunk in response.iter_content(chunk_size=chunk_size):
-                total_size += len(chunk)
-                if size_limit and total_size > size_limit:
-                    raise gr.Error("Exceeds file size limit")
-                file.write(chunk)
-    return save_path / filename
-
-
-def stop_translate_file(state: dict) -> None:
-    """
-    This function stops the translation process.
-
-    Inputs:
-        - state: The state of the translation process
-
-    Returns:- None
-    """
-    session_id = state["session_id"]
-    if session_id is None:
-        return
-    if session_id in cancellation_event_map:
-        logger.info(f"Stopping translation for session {session_id}")
-        cancellation_event_map[session_id].set()
-
-
-def translate_file(
-    file_type,
-    file_input,
-    link_input,
-    service,
-    lang_from,
-    lang_to,
-    page_range,
-    page_input,
-    prompt,
-    threads,
-    skip_subset_fonts,
-    ignore_cache,
-    use_babeldoc,
-    recaptcha_response,
-    state,
-    progress=gr.Progress(),
-    *envs,
-):
-    """
-    This function translates a PDF file from one language to another.
-
-    Inputs:
-        - file_type: The type of file to translate
-        - file_input: The file to translate
-        - link_input: The link to the file to translate
-        - service: The translation service to use
-        - lang_from: The language to translate from
-        - lang_to: The language to translate to
-        - page_range: The range of pages to translate
-        - page_input: The input for the page range
-        - prompt: The custom prompt for the llm
-        - threads: The number of threads to use
-        - recaptcha_response: The reCAPTCHA response
-        - state: The state of the translation process
-        - progress: The progress bar
-        - envs: The environment variables
-
-    Returns:
-        - The translated file
-        - The translated file
-        - The translated file
-        - The progress bar
-        - The progress bar
-        - The progress bar
-    """
-    session_id = uuid.uuid4()
-    state["session_id"] = session_id
-    cancellation_event_map[session_id] = asyncio.Event()
-    # Translate PDF content using selected service.
-    if flag_demo and not verify_recaptcha(recaptcha_response):
-        raise gr.Error("reCAPTCHA fail")
-
-    progress(0, desc="Starting translation...")
-
-    output = Path("pdf2zh_files")
-    output.mkdir(parents=True, exist_ok=True)
-
-    if file_type == "File":
-        if not file_input:
-            raise gr.Error("No input")
-        file_path = shutil.copy(file_input, output)
-    else:
-        if not link_input:
-            raise gr.Error("No input")
-        file_path = download_with_limit(
-            link_input,
-            output,
-            5 * 1024 * 1024 if flag_demo else None,
-        )
-
-    filename = os.path.splitext(os.path.basename(file_path))[0]
-    file_raw = output / f"{filename}.pdf"
-    file_mono = output / f"{filename}-mono.pdf"
-    file_dual = output / f"{filename}-dual.pdf"
-
-    translator = service_map[service]
-    if page_range != "Others":
-        selected_page = page_map[page_range]
-    else:
-        selected_page = []
-        for p in page_input.split(","):
-            if "-" in p:
-                start, end = p.split("-")
-                selected_page.extend(range(int(start) - 1, int(end)))
-            else:
-                selected_page.append(int(p) - 1)
-    lang_from = lang_map[lang_from]
-    lang_to = lang_map[lang_to]
-
-    _envs = {}
-    for i, env in enumerate(translator.envs.items()):
-        _envs[env[0]] = envs[i]
-    for k, v in _envs.items():
-        if str(k).upper().endswith("API_KEY") and str(v) == "***":
-            # 尝试从环境变量获取API密钥
-            real_keys: str = os.environ.get(f"{translator.name.upper()}_{k.upper()}", "")
-            _envs[k] = real_keys
-
-    print(f"Files before translation: {os.listdir(output)}")
-
-    def progress_bar(t: tqdm.tqdm):
-        desc = getattr(t, "desc", "Translating...")
-        if desc == "":
-            desc = "Translating..."
-        progress(t.n / t.total, desc=desc)
-
-    try:
-        threads = int(threads)
-    except ValueError:
-        threads = 1
-
-    param = {
-        "files": [str(file_raw)],
-        "pages": selected_page,
-        "service": f"{translator.name}",
-        "output": output,
-        "thread": int(threads),
-        "callback": progress_bar,
-        "cancellation_event": cancellation_event_map[session_id],
-        "envs": _envs,
-        "prompt": Template(prompt) if prompt else None,
-        "skip_subset_fonts": skip_subset_fonts,
-        "ignore_cache": ignore_cache,
-        "model": ModelInstance.value,
-        "lang_from": lang_from,
-        "lang_to": lang_to,
-    }
-
-    translate(**param)
-    print(f"Files after translation: {os.listdir(output)}")
-
-    if not file_mono.exists() or not file_dual.exists():
-        raise gr.Error("No output")
-
-    progress(1.0, desc="Translation complete!")
-
-    return (
-        str(file_mono),
-        str(file_mono),
-        str(file_dual),
-        gr.update(visible=True),
-        gr.update(visible=True),
-        gr.update(visible=True),
-    )
-
-# Global setup
-custom_blue = gr.themes.Color(
-    c50="#E8F3FF",
-    c100="#BEDAFF",
-    c200="#94BFFF",
-    c300="#6AA1FF",
-    c400="#4080FF",
-    c500="#165DFF",  # Primary color
-    c600="#0E42D2",
-    c700="#0A2BA6",
-    c800="#061D79",
-    c900="#03114D",
-    c950="#020B33",
-)
-
-custom_css = """
-    .secondary-text {color: #999 !important;}
-    footer {visibility: hidden}
-    .env-warning {color: #dd5500 !important;}
-    .env-success {color: #559900 !important;}
-
-    /* Add dashed border to input-file class */
-    .input-file {
-        border: 1.2px dashed #165DFF !important;
-        border-radius: 6px !important;
-    }
-
-    .progress-bar-wrap {
-        border-radius: 8px !important;
-    }
-
-    .progress-bar {
-        border-radius: 8px !important;
-    }
-
-    .pdf-canvas canvas {
-        width: 100%;
-    }
-    """
-
-demo_recaptcha = """
-    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-    <script type="text/javascript">
-        var onVerify = function(token) {
-            el=document.getElementById('verify').getElementsByTagName('textarea')[0];
-            el.value=token;
-            el.dispatchEvent(new Event('input'));
-        };
-    </script>
-    """
-
-from babeldoc import __version__ as babeldoc_version
-
-tech_details_string = f"""
-                    <summary>Technical details</summary>
-                    - GitHub: <a href="https://github.com/Byaidu/PDFMathTranslate">Byaidu/PDFMathTranslate</a><br>
-                    - BabelDOC: <a href="https://github.com/funstory-ai/BabelDOC">funstory-ai/BabelDOC</a><br>
-                    - GUI by: <a href="https://github.com/reycn">Rongxin</a><br>
-                    - pdf2zh Version: {__version__} <br>
-                    - BabelDOC Version: {babeldoc_version}
-                """
-cancellation_event_map = {}
-
-
-# The following code creates the GUI
-with gr.Blocks(
-    title="PDFMathTranslate - PDF Translation with preserved formats",
-    theme=gr.themes.Default(
-        primary_hue=custom_blue, spacing_size="md", radius_size="lg"
-    ),
-    css=custom_css,
-    head=demo_recaptcha if flag_demo else "",
-) as demo:
-    gr.Markdown(
-        "# [PDFMathTranslate @ GitHub](https://github.com/Byaidu/PDFMathTranslate)"
-    )
-
-    with gr.Row():
-        with gr.Column(scale=1):
-            gr.Markdown("## File | < 5 MB" if flag_demo else "## File")
-            file_type = gr.Radio(
-                choices=["File", "Link"],
-                label="Type",
-                value="File",
-            )
-            file_input = gr.File(
-                label="File",
-                file_count="single",
-                file_types=[".pdf"],
-                type="filepath",
-                elem_classes=["input-file"],
-            )
-            link_input = gr.Textbox(
-                label="Link",
-                visible=False,
-                interactive=True,
-            )
-            gr.Markdown("## Option")
-            service = gr.Dropdown(
-                label="Service",
-                choices=enabled_services,
-                value=enabled_services[0],
-            )
-            envs = []
-            for i in range(3):
-                envs.append(
-                    gr.Textbox(
-                        visible=False,
-                        interactive=True,
-                    )
-                )
-            with gr.Row():
-                lang_from = gr.Dropdown(
-                    label="Translate from",
-                    choices=lang_map.keys(),
-                    value=os.environ.get("PDF2ZH_LANG_FROM", "English"),
-                )
-                lang_to = gr.Dropdown(
-                    label="Translate to",
-                    choices=lang_map.keys(),
-                    value=os.environ.get("PDF2ZH_LANG_TO", "Simplified Chinese"),
-                )
-            page_range = gr.Radio(
-                choices=page_map.keys(),
-                label="Pages",
-                value=list(page_map.keys())[0],
-            )
-
-            page_input = gr.Textbox(
-                label="Page range",
-                visible=False,
-                interactive=True,
-            )
-
-            with gr.Accordion("Open for More Experimental Options!", open=False):
-                gr.Markdown("#### Experimental")
-                threads = gr.Textbox(
-                    label="number of threads", interactive=True, value="4"
-                )
-                skip_subset_fonts = gr.Checkbox(
-                    label="Skip font subsetting", interactive=True, value=False
-                )
-                ignore_cache = gr.Checkbox(
-                    label="Ignore cache", interactive=True, value=False
-                )
-                prompt = gr.Textbox(
-                    label="Custom Prompt for llm", interactive=True, visible=False
-                )
-                use_babeldoc = gr.Checkbox(
-                    label="Use BabelDOC", interactive=True, value=False
-                )
-                envs.append(prompt)
-
-            def on_select_service(service, evt: gr.EventData):
-                translator = service_map[service]
-                _envs = []
-                for i in range(4):
-                    _envs.append(gr.update(visible=False, value=""))
-                for i, env in enumerate(translator.envs.items()):
-                    label = env[0]
-                    # 尝试从环境变量获取值
-                    value = os.environ.get(f"{translator.name.upper()}_{env[0].upper()}", env[1])
-                    visible = True
-                    if hidden_gradio_details:
-                        if (
-                            "MODEL" not in str(label).upper()
-                            and value
-                            and hidden_gradio_details
-                        ):
-                            visible = False
-                        # Hidden Keys From Gradio
-                        if "API_KEY" in label.upper():
-                            value = "***"  # We use "***" Present Real API_KEY
-                    _envs[i] = gr.update(
-                        visible=visible,
-                        label=label,
-                        value=value,
-                    )
-                _envs[-1] = gr.update(visible=translator.CustomPrompt)
-                return _envs
-
-            def on_select_filetype(file_type):
-                return (
-                    gr.update(visible=file_type == "File"),
-                    gr.update(visible=file_type == "Link"),
-                )
-
-            def on_select_page(choice):
-                if choice == "Others":
-                    return gr.update(visible=True)
-                else:
-                    return gr.update(visible=False)
-
-            output_title = gr.Markdown("## Translated", visible=False)
-            output_file_mono = gr.File(
-                label="Download Translation (Mono)", visible=False
-            )
-            output_file_dual = gr.File(
-                label="Download Translation (Dual)", visible=False
-            )
-            recaptcha_response = gr.Textbox(
-                label="reCAPTCHA Response", elem_id="verify", visible=False
-            )
-            recaptcha_box = gr.HTML('<div id="recaptcha-box"></div>')
-            translate_btn = gr.Button("Translate", variant="primary")
-            cancellation_btn = gr.Button("Cancel", variant="secondary")
-            tech_details_tog = gr.Markdown(
-                tech_details_string,
-                elem_classes=["secondary-text"],
-            )
-            page_range.select(on_select_page, page_range, page_input)
-            service.select(
-                on_select_service,
-                service,
-                envs,
-            )
-            file_type.select(
-                on_select_filetype,
-                file_type,
-                [file_input, link_input],
-                js=(
-                    f"""
-                    (a,b)=>{{
-                        try{{
-                            grecaptcha.render('recaptcha-box',{{
-                                'sitekey':'{client_key}',
-                                'callback':'onVerify'
-                            }});
-                        }}catch(error){{}}
-                        return [a];
-                    }}
-                    """
-                    if flag_demo
-                    else ""
-                ),
-            )
-
-        with gr.Column(scale=2):
-            gr.Markdown("## Preview")
-            preview = PDF(label="Document Preview", visible=True, height=2000)
-
-    # Event handlers
-    file_input.upload(
-        lambda x: x,
-        inputs=file_input,
-        outputs=preview,
-        js=(
-            f"""
-            (a,b)=>{{
-                try{{
-                    grecaptcha.render('recaptcha-box',{{
-                        'sitekey':'{client_key}',
-                        'callback':'onVerify'
-                    }});
-                }}catch(error){{}}
-                return [a];
-            }}
-            """
-            if flag_demo
-            else ""
-        ),
-    )
-
-    state = gr.State({"session_id": None})
-
-    translate_btn.click(
-        translate_file,
-        inputs=[
-            file_type,
-            file_input,
-            link_input,
-            service,
-            lang_from,
-            lang_to,
-            page_range,
-            page_input,
-            prompt,
-            threads,
-            skip_subset_fonts,
-            ignore_cache,
-            use_babeldoc,
-            recaptcha_response,
-            state,
-            *envs,
-        ],
-        outputs=[
-            output_file_mono,
-            preview,
-            output_file_dual,
-            output_file_mono,
-            output_file_dual,
-            output_title,
-        ],
-    ).then(lambda: None, js="()=>{grecaptcha.reset()}" if flag_demo else "")
-
-    cancellation_btn.click(
-        stop_translate_file,
-        inputs=[state],
-    )
-
-
-def parse_user_passwd(file_path: str) -> tuple:
-    """
-    Parse the user name and password from the file.
-
-    Inputs:
-        - file_path: The file path to read.
-    Outputs:
-        - tuple_list: The list of tuples of user name and password.
-        - content: The content of the file
-    """
-    tuple_list = []
-    content = ""
-    if not file_path:
-        return tuple_list, content
-    if len(file_path) == 2:
+    
+    # 创建进度跟踪器
+    progress_tracker = TranslationProgress()
+    
+    # 定义翻译函数
+    async def translate_pdf(
+        files: List[tempfile._TemporaryFileWrapper],
+        service: str,
+        lang_from: str,
+        lang_to: str,
+        thread_count: int,
+        progress=gr.Progress()
+    ) -> Tuple[str, List[Tuple[str, str]]]:
+        """
+        异步翻译PDF文件
+        
+        Args:
+            files: 上传的PDF文件列表
+            service: 翻译服务
+            lang_from: 源语言
+            lang_to: 目标语言
+            thread_count: 线程数
+            progress: Gradio进度条
+            
+        Returns:
+            状态消息和结果文件路径列表
+        """
+        if not files:
+            return "请上传PDF文件", []
+        
+        # 重置进度
+        progress_tracker.reset()
+        
+        # 创建临时输出目录
+        output_dir = Path(tempfile.mkdtemp())
+        
+        # 准备文件路径列表
+        file_paths = [f.name for f in files]
+        file_names = [Path(f.name).name for f in files]
+        
+        # 获取语言代码
+        lang_from_code = language_map.get(lang_from, "en")
+        lang_to_code = language_map.get(lang_to, "zh-CN")
+        
+        # 获取模型实例
+        model = ModelInstance.value
+        
         try:
-            with open(file_path[1], "r", encoding="utf-8") as file:
-                content = file.read()
-        except FileNotFoundError:
-            print(f"Error: File '{file_path[1]}' not found.")
-    try:
-        with open(file_path[0], "r", encoding="utf-8") as file:
-            tuple_list = [
-                tuple(line.strip().split(",")) for line in file if line.strip()
-            ]
-    except FileNotFoundError:
-        print(f"Error: File '{file_path[0]}' not found.")
-    return tuple_list, content
-
-
-def setup_gui(
-    share: bool = False, auth_file: list = ["", ""], server_port=7860
-) -> None:
-    """
-    Setup the GUI with the given parameters.
-
-    Inputs:
-        - share: Whether to share the GUI.
-        - auth_file: The file path to read the user name and password.
-
-    Outputs:
-        - None
-    """
-    user_list, html = parse_user_passwd(auth_file)
-    if flag_demo:
-        demo.launch(server_name="0.0.0.0", max_file_size="5mb", inbrowser=True)
-    else:
-        if len(user_list) == 0:
-            try:
-                demo.launch(
-                    server_name="0.0.0.0",
-                    debug=True,
-                    inbrowser=True,
-                    share=share,
-                    server_port=server_port,
+            # 更新状态
+            progress_tracker.status = f"正在翻译 {len(file_paths)} 个文件..."
+            progress(0, desc=progress_tracker.status)
+            
+            # 执行翻译
+            result_files = await asyncio.to_thread(
+                translate,
+                files=file_paths,
+                output=str(output_dir),
+                service=service,
+                thread=thread_count,
+                cancellation_event=progress_tracker.cancellation_event,
+                model=model,
+                callback=progress_tracker.update,
+                lang_from=lang_from_code,
+                lang_to=lang_to_code
+            )
+            
+            # 如果取消了，返回取消消息
+            if progress_tracker.is_cancelled:
+                return "翻译已取消", []
+            
+            # 更新状态
+            progress_tracker.status = "翻译完成！"
+            progress(1.0, desc=progress_tracker.status)
+            
+            # 返回结果
+            return progress_tracker.status, result_files
+            
+        except Exception as e:
+            logger.error(f"翻译过程中发生错误: {str(e)}")
+            progress_tracker.status = f"翻译失败: {str(e)}"
+            return progress_tracker.status, []
+    
+    # 定义取消翻译函数
+    def cancel_translation() -> str:
+        """取消正在进行的翻译"""
+        progress_tracker.cancel()
+        return "翻译已取消"
+    
+    # 创建Gradio界面
+    with gr.Blocks(title="NexTranslation - PDF翻译工具") as app:
+        gr.Markdown("# NexTranslation PDF翻译工具")
+        gr.Markdown("上传PDF文件，选择翻译服务和语言，然后点击翻译按钮开始翻译。")
+        
+        with gr.Row():
+            with gr.Column(scale=2):
+                # 文件上传区域
+                files_input = gr.File(
+                    label="上传PDF文件",
+                    file_types=[".pdf"],
+                    file_count="multiple"
                 )
-            except Exception:
-                print(
-                    "Error launching GUI using 0.0.0.0.\nThis may be caused by global mode of proxy software."
+                
+                # 翻译设置
+                with gr.Group():
+                    gr.Markdown("### 翻译设置")
+                    service_dropdown = gr.Dropdown(
+                        choices=enabled_services,
+                        value=default_service,
+                        label="翻译服务"
+                    )
+                    
+                    with gr.Row():
+                        lang_from_dropdown = gr.Dropdown(
+                            choices=list(language_map.keys()),
+                            value=pdf_lang_from,
+                            label="源语言"
+                        )
+                        lang_to_dropdown = gr.Dropdown(
+                            choices=list(language_map.keys()),
+                            value=pdf_lang_to,
+                            label="目标语言"
+                        )
+                    
+                    thread_slider = gr.Slider(
+                        minimum=1,
+                        maximum=16,
+                        value=4,
+                        step=1,
+                        label="线程数"
+                    )
+                
+                # 操作按钮
+                with gr.Row():
+                    translate_btn = gr.Button("开始翻译", variant="primary")
+                    cancel_btn = gr.Button("取消翻译", variant="stop")
+            
+            with gr.Column(scale=1):
+                # 状态和结果显示
+                status_output = gr.Textbox(label="状态", value="准备就绪")
+                
+                # 结果文件列表
+                result_files_output = gr.File(
+                    label="翻译结果",
+                    file_count="multiple",
+                    type="file"
                 )
-                try:
-                    demo.launch(
-                        server_name="127.0.0.1",
-                        debug=True,
-                        inbrowser=True,
-                        share=share,
-                        server_port=server_port,
-                    )
-                except Exception:
-                    print(
-                        "Error launching GUI using 127.0.0.1.\nThis may be caused by global mode of proxy software."
-                    )
-                    demo.launch(
-                        debug=True, inbrowser=True, share=True, server_port=server_port
-                    )
-        else:
-            try:
-                demo.launch(
-                    server_name="0.0.0.0",
-                    debug=True,
-                    inbrowser=True,
-                    share=share,
-                    auth=user_list,
-                    auth_message=html,
-                    server_port=server_port,
-                )
-            except Exception:
-                print(
-                    "Error launching GUI using 0.0.0.0.\nThis may be caused by global mode of proxy software."
-                )
-                try:
-                    demo.launch(
-                        server_name="127.0.0.1",
-                        debug=True,
-                        inbrowser=True,
-                        share=share,
-                        auth=user_list,
-                        auth_message=html,
-                        server_port=server_port,
-                    )
-                except Exception:
-                    print(
-                        "Error launching GUI using 127.0.0.1.\nThis may be caused by global mode of proxy software."
-                    )
-                    demo.launch(
-                        debug=True,
-                        inbrowser=True,
-                        share=True,
-                        auth=user_list,
-                        auth_message=html,
-                        server_port=server_port,
-                    )
-
-
-# For auto-reloading while developing
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    setup_gui()
-
+        
+        # 设置事件处理
+        translate_btn.click(
+            fn=translate_pdf,
+            inputs=[
+                files_input,
+                service_dropdown,
+                lang_from_dropdown,
+                lang_to_dropdown,
+                thread_slider
+            ],
+            outputs=[status_output, result_files_output]
+        )
+        
+        cancel_btn.click(
+            fn=cancel_translation,
+            inputs=[],
+            outputs=[status_output]
+        )
+        
+        # 添加页脚
+        gr.Markdown("### 关于")
+        gr.Markdown("NexTranslation 是一个智能PDF翻译工具，支持保留原始布局和公式。")
+    
+    # 启动Gradio应用
+    hidden_details = config_manager._config_data.get("HIDDEN_GRADIO_DETAILS", True)
+    
+    app.launch(
+        server_name=server_name,
+        server_port=server_port,
+        share=False,
+        inbrowser=True,
+        show_api=False,
+        show_error=True,
+        quiet=hidden_details
+    )

@@ -7,6 +7,7 @@ from pathlib import Path
 from string import Template
 import logging
 from typing import List, Optional
+import time
 
 # 从项目中导入
 from nex_translation import __version__, logger # 使用 __init__ 中的 logger
@@ -41,6 +42,17 @@ def parse_page_ranges(page_str: Optional[str]) -> Optional[List[int]]:
         logger.error(f"无效的页面范围格式: {page_str}。错误: {e}")
         # 重新抛出异常以停止执行
         raise
+
+def format_time(seconds: float) -> str:
+    """将秒数格式化为人类可读的时间字符串"""
+    if seconds < 60:
+        return f"{seconds:.1f}秒"
+    elif seconds < 3600:
+        minutes = seconds / 60
+        return f"{minutes:.1f}分钟"
+    else:
+        hours = seconds / 3600
+        return f"{hours:.1f}小时"
 
 def main():
     parser = argparse.ArgumentParser(
@@ -157,7 +169,7 @@ def main():
             logger.warning(f"服务 '{service_to_use}' 不在启用列表中: {enabled_services}。将使用默认服务: '{config_manager.get_default_service()}'")
             service_to_use = config_manager.get_default_service()
         logger.info(f"使用的翻译服务: {service_to_use}")
-
+        
         # 解析页面
         page_list = parse_page_ranges(args.pages)
         if page_list is not None:
@@ -186,6 +198,20 @@ def main():
 
         # --- 执行翻译 ---
         logger.info(f"正在处理 {len(args.files)} 个文件...")
+        start_time = time.time()
+        
+        # 创建进度回调函数
+        from tqdm import tqdm
+
+        def progress_callback(t: tqdm):
+            """翻译进度回调函数"""
+            # 这里可以实现进度显示逻辑
+            # 例如，打印当前进度
+            print(f"\r翻译进度: {t.n}/{t.total} ({t.n/t.total*100:.1f}%)", end="")
+        
+        # 准备环境变量
+        envs = {}
+        
         result_files = translate(
             files=args.files,
             # translate 需要字符串路径
@@ -199,19 +225,31 @@ def main():
             # CLI 尚不支持取消
             cancellation_event=None,
             model=layout_model,
-            # envs 由 translate/translator 中的 ConfigManager 处理
-            envs=None,
+            # 传递语言环境变量
+            envs=envs,
             prompt=prompt_template,
             skip_subset_fonts=args.skip_subset_fonts,
             ignore_cache=args.ignore_cache,
-            # CLI 尚无进度回调
-            callback=None
+            # 传递进度回调
+            callback=progress_callback
         )
 
-        logger.info("翻译成功完成。")
-        for mono_path, dual_path in result_files:
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        
+        logger.info(f"翻译成功完成。总耗时: {format_time(elapsed_time)}")
+        
+        # 显示结果文件信息
+        for i, (mono_path, dual_path) in enumerate(result_files, 1):
+            logger.info(f"文件 {i}/{len(result_files)}:")
             logger.info(f"  - 单语输出: {mono_path}")
             logger.info(f"  - 双语输出: {dual_path}")
+            
+            # 计算文件大小
+            mono_size = os.path.getsize(mono_path) / (1024 * 1024)  # MB
+            dual_size = os.path.getsize(dual_path) / (1024 * 1024)  # MB
+            logger.info(f"  - 单语文件大小: {mono_size:.2f} MB")
+            logger.info(f"  - 双语文件大小: {dual_size:.2f} MB")
 
         sys.exit(0)
 
@@ -227,6 +265,9 @@ def main():
     except ValueError as e: # 捕获页面范围解析错误
         logger.error(f"配置错误: {e}")
         sys.exit(1)
+    except KeyboardInterrupt:
+        logger.info("用户中断操作。正在退出...")
+        sys.exit(130)  # 标准的用户中断退出码
     except Exception as e:
         logger.error(f"发生意外错误: {e}")
         if args.debug:

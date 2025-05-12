@@ -52,8 +52,6 @@ def setup_db():
     if (test_db_path.parent / f"{test_db_path.name}-shm").exists():
         (test_db_path.parent / f"{test_db_path.name}-shm").unlink(missing_ok=True)
 
-# --- Fixtures ---
-
 @pytest.fixture
 def mock_config_manager():
     """Mock ConfigManager.get_instance()"""

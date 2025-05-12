@@ -35,3 +35,29 @@
 2025-05-07 16:44:52,784 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
 2025-05-07 16:48:04,235 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
 2025-05-07 16:52:27,241 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-07 17:03:03,279 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-07 17:03:03,285 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,602 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,602 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,602 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,602 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,620 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,647 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,647 [ERROR] nex_translation.nex_translation.infrastructure.cache:107 - Database not initialized for TranslationCache.get
+2025-05-07 17:03:03,648 [ERROR] nex_translation.nex_translation.infrastructure.cache:126 - Database not initialized for TranslationCache.set
+2025-05-07 17:03:03,658 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,663 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:03:03,663 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:14,850 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-07 17:23:14,859 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,162 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,162 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,162 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,164 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,184 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,213 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,213 [ERROR] nex_translation.nex_translation.infrastructure.cache:107 - Database not initialized for TranslationCache.get
+2025-05-07 17:23:15,214 [ERROR] nex_translation.nex_translation.infrastructure.cache:126 - Database not initialized for TranslationCache.set
+2025-05-07 17:23:15,224 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,228 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-07 17:23:15,228 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.

@@ -95,7 +95,14 @@ class TranslationCache:
     def add_params(self, key: str, value: Any) -> None:
         """添加单个参数"""
         current_params = self.params.copy()
-        current_params[key] = value
+        # 确保值可以被 JSON 序列化
+        try:
+            # 尝试 JSON 序列化，如果失败则转换为字符串
+            json.dumps(value)
+            current_params[key] = value
+        except (TypeError, OverflowError):
+            # 如果值不可序列化，则转换为字符串
+            current_params[key] = str(value)
         self.replace_params(current_params)
 
     def get(self, original_text: str) -> Optional[str]:

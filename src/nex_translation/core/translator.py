@@ -12,17 +12,19 @@ logger = get_logger(__name__)
 
 class BaseTranslator(ABC):
     """翻译器基类"""
-    
+
     name: str = ""  # 翻译器名称
     envs: Dict[str, Any] = {}  # 所需环境变量
     CustomPrompt: bool = False  # 是否支持自定义prompt
-    
+
     def __init__(
         self,
         model: str = "",
         envs: Optional[Dict] = None,
         prompt: Optional[Template] = None,
         ignore_cache: bool = False,
+        lang_in: str = "en",
+        lang_out: str = "zh-CN",
     ):
         """
         初始化翻译器
@@ -31,24 +33,29 @@ class BaseTranslator(ABC):
             envs: 环境变量配置
             prompt: 自定义prompt模板
             ignore_cache: 是否忽略缓存
+            lang_in: 输入语言代码
+            lang_out: 输出语言代码
         """
         self.model = model
-        self.lang_in = "en"  # 固定为英语
-        self.lang_out = "zh"  # 固定为中文
+        self.lang_in = lang_in  # 输入语言
+        self.lang_out = lang_out  # 输出语言
         self.ignore_cache = ignore_cache
         self.set_envs(envs)
         self.cache = TranslationCache()
         self.prompt_template = prompt
+        # 只在DEBUG级别打印初始化信息
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"BaseTranslator initialized with lang_in={self.lang_in}, lang_out={self.lang_out}")
 
     def set_envs(self, envs: Optional[Dict] = None):
         """设置环境变量"""
         try:
             # 使用单例模式获取配置管理器实例
             config_manager = ConfigManager.get_instance()
-            
+
             # 复制类默认值
             self.envs = copy(self.envs)
-            
+
             # 获取配置文件中的设置
             try:
                 saved_config = config_manager.get_translator_config(self.name)
@@ -56,7 +63,7 @@ class BaseTranslator(ABC):
                     self.envs.update(saved_config)
             except Exception as e:
                 logger.warning(f"Failed to load config for {self.name}: {str(e)}")
-            
+
             # 检查环境变量是否有更新
             need_update = False
             for key in self.envs:
@@ -64,14 +71,14 @@ class BaseTranslator(ABC):
                     if self.envs[key] != os.environ[key]:
                         self.envs[key] = os.environ[key]
                         need_update = True
-            
+
             # 如果环境变量有更新，保存到配置文件
             if need_update:
                 try:
                     config_manager.update_translator_config(self.name, self.envs)
                 except Exception as e:
                     logger.warning(f"Failed to save updated config for {self.name}: {str(e)}")
-            
+
             # 处理传入的配置参数
             if envs:
                 self.envs.update(envs)
@@ -79,7 +86,7 @@ class BaseTranslator(ABC):
                     config_manager.update_translator_config(self.name, self.envs)
                 except Exception as e:
                     logger.warning(f"Failed to save config with new envs for {self.name}: {str(e)}")
-                
+
         except Exception as e:
             logger.error(f"Error in set_envs for {self.name}: {str(e)}")
             raise e

@@ -2,7 +2,7 @@
 # DoclayoutModel(进行布局分析), TranslateConverter(进行翻译), PDFPageInterpreterEx(内容解析)
 # 以利用这三个类完成工作
 
-# 注意此python文件最终只对外暴露两个函数： 
+# 注意此python文件最终只对外暴露两个函数：
 # 直接处理pdf二进制流的translate_stream()以及直接处理pdf文件的translate()
 
 import asyncio
@@ -10,6 +10,7 @@ import io
 import os
 import re
 import sys
+import logging
 import tempfile
 from asyncio import CancelledError
 from pathlib import Path
@@ -28,7 +29,7 @@ from pymupdf import Document
 from babeldoc.assets.assets import get_font_and_metadata
 
 from .doclayout import OnnxModel
-from .converter import TranslateConverter 
+from .converter import TranslateConverter
 from .pdfinterpreter import PDFPageInterpreterEx
 
 from ..utils.exceptions import (
@@ -65,6 +66,8 @@ def translate_patch(
     envs: Dict = None,
     prompt: Template = None,
     ignore_cache: bool = False,
+    lang_from: str = "en",
+    lang_to: str = "zh-CN",
     **kwarg: Any,
 ) -> None:
     try:
@@ -76,10 +79,12 @@ def translate_patch(
             vchar,
             thread,
             layout,
-            service,
-            envs,
-            prompt,
-            ignore_cache,
+            lang_in=lang_from,
+            lang_out=lang_to,
+            service=service,
+            envs=envs,
+            prompt=prompt,
+            ignore_cache=ignore_cache,
         )
 
         if device is None:
@@ -110,8 +115,10 @@ def translate_patch(
                 if pages and (pageno not in pages):
                     continue
 
-                logger.debug(f"Processing page {pageno}")
-                progress.update()
+                # 只在DEBUG级别打印页面处理信息
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.debug(f"Processing page {pageno}")
+                # 确保进度条更新在页面处理完成后
                 if callback:
                     callback(progress)
 
@@ -159,6 +166,11 @@ def translate_patch(
                     doc_zh[page.pageno].set_contents(page.page_xref)
                     interpreter.process_page(page)
 
+                    # 在页面处理完成后更新进度条
+                    progress.update()
+                    if callback:
+                        callback(progress)
+
                 except Exception as e:
                     logger.error(f"Error processing page {pageno}: {str(e)}")
                     raise ContentExtractionError(pageno, "text")
@@ -185,11 +197,13 @@ def translate_stream(
     prompt: Template = None,
     skip_subset_fonts: bool = False,
     ignore_cache: bool = False,
+    lang_from: str = "en",
+    lang_to: str = "zh-CN",
     **kwarg: Any,
 ):
     # 只保留基本字体配置
     font_list = [("tiro", None)]  # 拉丁字体
-    
+
     # 加载思源字体
     cjk_font_path = download_remote_fonts()
     font_list.append(("SourceHanSerifCN", cjk_font_path))
@@ -241,7 +255,24 @@ def translate_stream(
     fp = io.BytesIO()
 
     doc_zh.save(fp)
-    obj_patch: dict = translate_patch(fp, **locals())
+    # 确保传递语言参数
+    obj_patch: dict = translate_patch(
+        fp,
+        pages=pages,
+        vfont=vfont,
+        vchar=vchar,
+        thread=thread,
+        doc_zh=doc_zh,
+        service=service,
+        callback=callback,
+        cancellation_event=cancellation_event,
+        model=model,
+        envs=envs,
+        prompt=prompt,
+        ignore_cache=ignore_cache,
+        lang_from=lang_from,
+        lang_to=lang_to,
+    )
 
     for obj_id, ops_new in obj_patch.items():
         # ops_old=doc_en.xref_stream(obj_id)
@@ -327,6 +358,8 @@ def translate(
     prompt: Template = None,
     skip_subset_fonts: bool = False,
     ignore_cache: bool = False,
+    lang_from: str = "en",
+    lang_to: str = "zh-CN",
     **kwarg: Any,
 ):
     if not files:
@@ -391,8 +424,21 @@ def translate(
             logger.warning(f"Failed to clean temp file {file_path}", exc_info=True)
 
         s_mono, s_dual = translate_stream(
-            s_raw,
-            **locals(),
+            stream=s_raw,
+            pages=pages,
+            service=service,
+            thread=thread,
+            vfont=vfont,
+            vchar=vchar,
+            callback=callback,
+            cancellation_event=cancellation_event,
+            model=model,
+            envs=envs,
+            prompt=prompt,
+            skip_subset_fonts=skip_subset_fonts,
+            ignore_cache=ignore_cache,
+            lang_from=lang_from,
+            lang_to=lang_to,
         )
         file_mono = Path(output) / f"{filename}-mono.pdf"
         file_dual = Path(output) / f"{filename}-dual.pdf"
@@ -412,7 +458,7 @@ def download_remote_fonts() -> str:
     font_name = "SourceHanSerifCN-Regular.ttf"
     # 使用 ConfigManager 获取字体路径配置
     font_path = ConfigManager.get_instance()._config_data.get("CJK_FONT_PATH", Path("/app", font_name).as_posix())
-    
+
     if not Path(font_path).exists():
         font_path, _ = get_font_and_metadata(font_name)
         font_path = font_path.as_posix()

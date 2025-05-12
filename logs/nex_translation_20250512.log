@@ -1,0 +1,73 @@
+2025-05-12 11:34:00,372 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 11:34:56,187 [INFO] nex_translation.src.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 11:34:56,303 [INFO] nex_translation.src.nex_translation.core.pdf_processor:102 - Starting PDF translation with 2 pages
+2025-05-12 11:34:57,203 [ERROR] nex_translation.src.nex_translation.core.pdf_processor:163 - Error processing page 0: 'LTPage' object has no attribute 'pageno'
+2025-05-12 11:34:57,203 [ERROR] nex_translation.src.nex_translation.core.pdf_processor:171 - PDF translation failed: Failed to extract text content from page 0
+2025-05-12 11:39:54,817 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 11:40:08,529 [INFO] nex_translation.src.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 11:40:08,629 [INFO] nex_translation.src.nex_translation.core.pdf_processor:102 - Starting PDF translation with 1 pages
+2025-05-12 11:40:10,954 [ERROR] nex_translation.src.nex_translation.core.converter:353 - Batch translation failed
+Traceback (most recent call last):
+  File "c:\Users\yuanlin cao\NexTranslation\src\nex_translation\core\converter.py", line 350, in receive_layout
+    with concurrent.futures.ThreadPoolExecutor(max_workers=self.thread) as executor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuanlin cao\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 144, in __init__
+    raise ValueError("max_workers must be greater than 0")
+ValueError: max_workers must be greater than 0
+2025-05-12 11:40:11,049 [ERROR] nex_translation.src.nex_translation.core.converter:353 - Batch translation failed
+Traceback (most recent call last):
+  File "c:\Users\yuanlin cao\NexTranslation\src\nex_translation\core\converter.py", line 350, in receive_layout
+    with concurrent.futures.ThreadPoolExecutor(max_workers=self.thread) as executor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuanlin cao\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 144, in __init__
+    raise ValueError("max_workers must be greater than 0")
+ValueError: max_workers must be greater than 0
+2025-05-12 11:40:11,056 [ERROR] nex_translation.src.nex_translation.core.converter:353 - Batch translation failed
+Traceback (most recent call last):
+  File "c:\Users\yuanlin cao\NexTranslation\src\nex_translation\core\converter.py", line 350, in receive_layout
+    with concurrent.futures.ThreadPoolExecutor(max_workers=self.thread) as executor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\yuanlin cao\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 144, in __init__
+    raise ValueError("max_workers must be greater than 0")
+ValueError: max_workers must be greater than 0
+2025-05-12 11:40:11,057 [ERROR] nex_translation.src.nex_translation.core.pdf_processor:163 - Error processing page 0: Batch translation failed: max_workers must be greater than 0
+2025-05-12 11:40:11,057 [ERROR] nex_translation.src.nex_translation.core.pdf_processor:171 - PDF translation failed: Failed to extract text content from page 0
+2025-05-12 13:38:11,015 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:40:06,582 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:41:16,018 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:41:22,858 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:42:05,673 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:43:36,392 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:44:25,685 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:44:25,707 [INFO] nex_translation.src.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:45:24,166 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:46:55,269 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:47:12,922 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:47:13,643 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 8 pages
+2025-05-12 13:48:23,203 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:48:37,722 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:48:38,350 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 8 pages
+2025-05-12 13:52:19,332 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:52:31,958 [INFO] nex_translation.nex_translation.core.pdf_processor:429 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:52:32,641 [ERROR] nex_translation.nex_translation.core.pdf_processor:176 - PDF translation failed: 'NoneType' object has no attribute 'split'
+2025-05-12 13:53:53,436 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:54:08,428 [INFO] nex_translation.nex_translation.core.pdf_processor:429 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:54:09,143 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 8 pages
+2025-05-12 13:54:13,530 [ERROR] nex_translation.nex_translation.core.pdf_processor:168 - Error processing page 0: 'NoneType' object has no attribute 'char_lengths'
+2025-05-12 13:54:13,532 [ERROR] nex_translation.nex_translation.core.pdf_processor:176 - PDF translation failed: Failed to extract text content from page 0
+2025-05-12 13:55:14,425 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:55:27,579 [INFO] nex_translation.nex_translation.core.pdf_processor:429 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:55:28,210 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 8 pages
+2025-05-12 13:55:48,772 [INFO] nex_translation.nex_translation.core.pdf_processor:171 - PDF translation completed successfully
+2025-05-12 13:58:54,372 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 13:59:14,147 [INFO] nex_translation.nex_translation.core.pdf_processor:429 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 13:59:14,832 [INFO] nex_translation.nex_translation.core.pdf_processor:102 - Starting PDF translation with 8 pages
+2025-05-12 13:59:29,053 [INFO] nex_translation.nex_translation.core.pdf_processor:171 - PDF translation completed successfully
+2025-05-12 14:05:55,190 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 14:06:15,226 [INFO] nex_translation.nex_translation.core.pdf_processor:467 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 14:06:15,971 [INFO] nex_translation.nex_translation.core.pdf_processor:106 - Starting PDF translation with 8 pages
+2025-05-12 14:07:30,284 [INFO] nex_translation.nex_translation.core.pdf_processor:175 - PDF translation completed successfully
+2025-05-12 14:20:00,555 [INFO] nex_translation.nex_translation:19 - NexTranslation v0.1.0 initialized
+2025-05-12 14:20:22,541 [INFO] nex_translation.nex_translation.core.pdf_processor:470 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 14:20:22,770 [INFO] nex_translation.nex_translation.core.pdf_processor:107 - Starting PDF translation with 2 pages
+2025-05-12 14:20:29,738 [INFO] nex_translation.nex_translation.core.pdf_processor:178 - PDF translation completed successfully

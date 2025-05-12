@@ -12,7 +12,6 @@ import onnxruntime
 from huggingface_hub import hf_hub_download
 
 
-
 class DocLayoutModel(abc.ABC):
     @staticmethod
     def load_onnx():

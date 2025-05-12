@@ -18,17 +18,8 @@ CUSTOM_CSS = """
     padding: 20px;  # 内边距为20像素。
     font-family: Arial, sans-serif;
 }
-.output-panel {  # 输出面板的最小高度为400像素。
-    min-height: 400px;  # 最小高度为400像素。
-}
-.gradio-button {  # 按钮的宽度为200像素，上边距为10像素。
-    width: 200px;  # 宽度为200像素。
-    margin-top: 10px;  # 上边距为10像素。
-}
-#pdf-preview {  # PDF预览的宽度为100%，最大高度为600像素，下边距为20像素。
-    width: 100%;  # 宽度为100%。
-    max-height: 600px;  # 最大高度为600像素。
-    margin-bottom: 20px;  # 下边距为20像素。
+.output-panel {
+    min-height: 400px;
 }
 """
 

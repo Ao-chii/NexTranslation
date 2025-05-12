@@ -9,7 +9,8 @@ import copy
 logger = logging.getLogger(__name__)
 
 class ConfigManager:
-    """配置管理器(单例模式实现)
+    """
+    配置管理器(单例模式实现)
     核心职责：
     1. 管理应用配置
     2. 确保配置一致性
@@ -95,6 +96,8 @@ class ConfigManager:
                 self._save_config()
             else:
                 raise ValueError(f"Config file {self._config_path} not found!")
+        else: # 如果文件已存在
+            self._load_config() # <--- 添加这一行来加载现有配置
 
     def get_translator_config(self, translator_name: str) -> Dict[str, Any]:
         """

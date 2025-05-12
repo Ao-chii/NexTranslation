@@ -23,6 +23,13 @@ dependencies = [
     "requests",     
     "babeldoc"      
 ]
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-asyncio",  # 如果有异步代码
+]
 
 [project.scripts]
 nex-translate = "nex_translation.presentation.cli:main"

@@ -1,4 +1,4 @@
-# 对外主要暴露的类：TranslateConverter 提供给pdf_processor.py 
+# 对外主要暴露的类：TranslateConverter 提供给pdf_processor.py
 #TranslateConverter 用于接收pdfminer解析的pdf内容流(作为输入)，进行翻译，输出翻译后的pdf内容流
 
 import concurrent.futures
@@ -43,16 +43,19 @@ class PDFConverterEx(PDFConverter):
         (x1, y1) = apply_matrix_pt(ctm, (x1, y1))
         mediabox = (0, 0, abs(x0 - x1), abs(y0 - y1))
         self.cur_item = LTPage(page.pageno, mediabox)
+        # 设置pageno属性，以便在receive_layout中使用
+        self.cur_item.pageno = page.pageno
 
     def end_page(self, page):
         # 重载返回指令流
         return self.receive_layout(self.cur_item)
 
     def begin_figure(self, name, bbox, matrix) -> None:
-        # 重载设置 pageid
+        # 重载设置 pageno
         self._stack.append(self.cur_item)
         self.cur_item = LTFigure(name, bbox, mult_matrix(matrix, self.ctm))
-        self.cur_item.pageid = self._stack[-1].pageid
+        # 设置pageno属性，以便在receive_layout中使用
+        self.cur_item.pageno = self._stack[-1].pageno
 
     def end_figure(self, _: str) -> None:
         # 重载返回指令流
@@ -94,7 +97,7 @@ class PDFConverterEx(PDFConverter):
             graphicstate,
         )
         self.cur_item.add(item)
-        item.cid = cid  
+        item.cid = cid
         item.font = font
         return item.adv
 
@@ -130,6 +133,9 @@ class TranslateConverter(PDFConverterEx):
         self.thread = thread
         self.layout = layout
         self.translator: BaseTranslator = None
+        # 初始化字体映射
+        self.fontid = {}
+        self.fontmap = {}
 
         # 初始化翻译器
         param = service.split(":", 1)
@@ -137,15 +143,16 @@ class TranslateConverter(PDFConverterEx):
         service_model = param[1] if len(param) > 1 else None
         if not envs:
             envs = {}
-            
+
         # 记录translator初始化
         logger.debug(f"Attempting to initialize translator: {service_name}")
-        for translator in [GoogleTranslator]:   # 之后可扩展
-            if service_name == translator.name:
-                self.translator = translator(service_model, 
-                                          envs=envs, 
-                                          prompt=prompt, 
-                                          ignore_cache=ignore_cache)
+        if service_name == "google":
+            self.translator = GoogleTranslator(
+                model=service_model,
+                envs=envs,
+                prompt=prompt,
+                ignore_cache=ignore_cache
+            )
         if not self.translator:
             logger.error(f"Failed to initialize translator: {service_name}")
             raise ValueError("Unsupported translation service")
@@ -154,7 +161,29 @@ class TranslateConverter(PDFConverterEx):
     def receive_layout(self, ltpage: LTPage):
         """处理页面布局"""
         logger.info(f"Processing layout for page {ltpage.pageno}")
-        
+
+        # 检查fontmap和fontid是否为空
+        logger.info(f"fontmap: {self.fontmap}, fontid: {self.fontid}")
+
+        # 如果fontmap为空，添加默认字体
+        if not self.fontmap:
+            logger.info("fontmap is empty, adding default fonts")
+            from pdfminer.pdffont import PDFFont
+            # 创建一个简单的PDFFont对象
+            class SimplePDFFont(PDFFont):
+                def __init__(self, name):
+                    self.name = name
+                def to_unichr(self, cid):
+                    return chr(cid)
+                def char_width(self, cid):
+                    return 1.0
+
+            # 添加默认字体
+            self.fontmap["tiro"] = SimplePDFFont("tiro")
+            self.fontmap["SourceHanSerifCN"] = SimplePDFFont("SourceHanSerifCN")
+            self.fontid[self.fontmap["tiro"]] = "tiro"
+            self.fontid[self.fontmap["SourceHanSerifCN"]] = "SourceHanSerifCN"
+
         # 保持原有变量定义
         sstk: list[str] = []            # 段落文字栈
         pstk: list[Paragraph] = []      # 段落属性栈
@@ -213,22 +242,37 @@ class TranslateConverter(PDFConverterEx):
 
         ############################################################
         # A. 原文档解析
+        logger.info(f"Starting to process {len(ltpage)} children in ltpage")
+        child_count = 0
         for child in ltpage:
+            child_count += 1
+            if child_count % 100 == 0:
+                logger.info(f"Processed {child_count} children")
             if isinstance(child, LTChar):
                 cur_v = False
-                layout = self.layout[ltpage.pageid]
-                # ltpage.height 可能是 fig 里面的高度，这里统一用 layout.shape
-                h, w = layout.shape
+                logger.info(f"Processing LTChar: {child}")
+                try:
+                    layout = self.layout[ltpage.pageno]
+                    # ltpage.height 可能是 fig 里面的高度，这里统一用 layout.shape
+                    h, w = layout.shape
+                    logger.info(f"Layout shape: {h}x{w}")
+                except Exception as e:
+                    logger.error(f"Error getting layout: {e}")
+                    continue
                 # 读取当前字符在 layout 中的类别
-                cx, cy = np.clip(int(child.x0), 0, w - 1), np.clip(int(child.y0), 0, h - 1)
-                cls = layout[cy, cx]
-                # 锚定文档中 bullet 的位置
-                if child.get_text() == "•":
-                    cls = 0
+                try:
+                    cx, cy = np.clip(int(child.x0), 0, w - 1), np.clip(int(child.y0), 0, h - 1)
+                    cls = layout[cy, cx]
+                    # 锚定文档中 bullet 的位置
+                    if child.get_text() == "•":
+                        cls = 0
+                except Exception as e:
+                    logger.error(f"Error getting class: {e}")
+                    cls = 0  # 默认为保留区域
                 # 判定当前字符是否属于公式
                 if (                                                                                        # 判定当前字符是否属于公式
                     cls == 0                                                                                # 1. 类别为保留区域
-                    or (cls == xt_cls and len(sstk[-1].strip()) > 1 and child.size < pstk[-1].size * 0.79)  # 2. 角标字体，有 0.76 的角标和 0.799 的大写，这里用 0.79 取中，同时考虑首字母放大的情况
+                    or (cls == xt_cls and sstk and len(sstk[-1].strip()) > 1 and pstk and child.size < pstk[-1].size * 0.79)  # 2. 角标字体，有 0.76 的角标和 0.799 的大写，这里用 0.79 取中，同时考虑首字母放大的情况
                     or vflag(child.fontname, child.get_text())                                              # 3. 公式字体
                     or (child.matrix[0] == 0 and child.matrix[3] == 0)                                      # 4. 垂直字体
                 ):
@@ -248,7 +292,7 @@ class TranslateConverter(PDFConverterEx):
                     # 禁止纯公式（代码）段落换行，直到文字开始再重开文字段落，保证只存在两种情况
                     # A. 纯公式（代码）段落（锚定绝对位置）sstk[-1]=="" -> sstk[-1]=="{v*}"
                     # B. 文字开头段落（排版相对位置）sstk[-1]!=""
-                    or (sstk[-1] != "" and abs(child.x0 - xt.x0) > vmax)    # 因为 cls==xt_cls==0 一定有 sstk[-1]==""，所以这里不需要再判定 cls!=0
+                    or (sstk and sstk[-1] != "" and abs(child.x0 - xt.x0) > vmax)    # 因为 cls==xt_cls==0 一定有 sstk[-1]==""，所以这里不需要再判定 cls!=0
                 ):
                     if vstk:
                         if (                                                # 根据公式右侧的文字修正公式的纵向偏移
@@ -257,9 +301,13 @@ class TranslateConverter(PDFConverterEx):
                             and child.x0 > max([vch.x0 for vch in vstk])    # 3. 当前字符在公式右侧
                         ):
                             vfix = vstk[0].y0 - child.y0
-                        if sstk[-1] == "":
+                        if sstk and sstk[-1] == "":
                             xt_cls = -1 # 禁止纯公式段落（sstk[-1]=="{v*}"）的后续连接，但是要考虑新字符和后续字符的连接，所以这里修改的是上个字符的类别
-                        sstk[-1] += f"{{v{len(var)}}}"
+                        if sstk:
+                            sstk[-1] += f"{{v{len(var)}}}"
+                        else:
+                            sstk.append(f"{{v{len(var)}}}")
+                            pstk.append(Paragraph(child.y0, child.x0, child.x0, child.x0, child.y0, child.y1, child.size, False))
                         var.append(vstk)
                         varl.append(vlstk)
                         varf.append(vfix)
@@ -301,10 +349,11 @@ class TranslateConverter(PDFConverterEx):
                 # 更新上一个字符
                 xt = child
                 xt_cls = cls
+                logger.info(f"Updated xt to {xt} and xt_cls to {xt_cls}")
             elif isinstance(child, LTFigure):   # 图表
                 pass
             elif isinstance(child, LTLine):     # 线条
-                layout = self.layout[ltpage.pageid]
+                layout = self.layout[ltpage.pageno]
                 # ltpage.height 可能是 fig 里面的高度，这里统一用 layout.shape
                 h, w = layout.shape
                 # 读取当前线条在 layout 中的类别
@@ -317,11 +366,18 @@ class TranslateConverter(PDFConverterEx):
             else:
                 pass
         # 处理结尾
+        logger.info("Finished processing all children in ltpage")
         if vstk:    # 公式出栈
-            sstk[-1] += f"{{v{len(var)}}}"
+            logger.info(f"Processing vstk with {len(vstk)} items")
+            if sstk:
+                sstk[-1] += f"{{v{len(var)}}}"
+            else:
+                sstk.append(f"{{v{len(var)}}}")
+                pstk.append(Paragraph(vstk[0].y0, vstk[0].x0, vstk[0].x0, vstk[0].x0, vstk[0].y0, vstk[0].y1, vstk[0].size, False))
             var.append(vstk)
             varl.append(vlstk)
             varf.append(vfix)
+        logger.info(f"sstk: {sstk}, pstk: {pstk}")
         logger.debug("\n==========[VSTACK]==========\n")
         for id, v in enumerate(var):  # 计算公式宽度
             l = max([vch.x1 for vch in v]) - v[0].x0
@@ -330,10 +386,11 @@ class TranslateConverter(PDFConverterEx):
 
         ############################################################
         # B. 段落翻译
+        logger.info(f"Starting paragraph translation with {len(sstk)} paragraphs")
         logger.debug("\n==========[SSTACK]==========\n")
 
         @retry(wait=wait_fixed(1))
-        def worker(self, text: str) -> str:  # 多线程翻译
+        def worker(text: str) -> str:  # 多线程翻译
             if not text.strip() or re.match(r"^\{v\d+\}$", text):  # 空白和公式不翻译
                 return text
             try:
@@ -353,7 +410,7 @@ class TranslateConverter(PDFConverterEx):
         except Exception as e:
             logger.error("Batch translation failed", exc_info=True)
             raise TranslationError(f"Batch translation failed: {str(e)}", is_retryable=True)
-
+        
         ############################################################
         # C. 新文档排版
         def raw_string(fcur: str, cstk: str) -> str:
@@ -417,7 +474,7 @@ class TranslateConverter(PDFConverterEx):
                             fcur_ = "tiro"  # 默认拉丁字体
                     except Exception:
                         fcur_ = "SourceHanSerifCN"  # 默认使用中文字体
-                    
+
                     # 计算字符宽度
                     adv = self.fontmap[fcur_].char_width(ord(ch)) * size
                     ptr += 1

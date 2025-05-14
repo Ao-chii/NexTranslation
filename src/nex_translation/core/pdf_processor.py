@@ -108,16 +108,25 @@ def translate_patch(
                     raise CancelledError("task cancelled")
 
                 if pages and (pageno not in pages):
-                    continue
-
+                    continue                
                 logger.debug(f"Processing page {pageno}")
                 progress.update()
                 if callback:
                     callback(progress)
-
+                    
                 try:
-                    page.pageno = pageno
-                    pix = doc_zh[page.pageno].get_pixmap()
+                    # 设置页面的必要属性
+                    setattr(page, 'pageno', pageno)
+                    setattr(page, 'page_xref', None)  # 初始化 page_xref 属性
+                    
+                    # 新建一个 xref 存放新指令流
+                    page.page_xref = doc_zh.get_new_xref()  # hack 插入页面的新 xref
+                    doc_zh.update_object(page.page_xref, "<<>>")
+                    doc_zh.update_stream(page.page_xref, b"")
+                    doc_zh[pageno].set_contents(page.page_xref)  # 使用 pageno 而不是 page.pageno
+                    
+                    # 使用当前处理的page
+                    pix = doc_zh[pageno].get_pixmap()  # 使用pageno
                     image = np.fromstring(pix.samples, np.uint8).reshape(
                         pix.height, pix.width, 3
                     )[:, :, ::-1]
@@ -148,8 +157,8 @@ def translate_patch(
                                 np.clip(int(x0 - 1), 0, w - 1),
                                 np.clip(int(h - y1 - 1), 0, h - 1),
                                 np.clip(int(x1 + 1), 0, w - 1),
-                                np.clip(int(h - y0 + 1), 0, h - 1),
-                            )
+                                np.clip(int(h - y0 + 1), 0, h - 1), 
+                              )
                             box[y0:y1, x0:x1] = 0
                     layout[page.pageno] = box
                     # 新建一个 xref 存放新指令流

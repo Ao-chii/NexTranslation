@@ -4,7 +4,6 @@ import html
 import logging
 import re
 import requests
-from src.nex_translation.core.translator import remove_control_characters
 
 logger = logging.getLogger(__name__)
 

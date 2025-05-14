@@ -111,8 +111,14 @@ class TranslationCache:
             # 确保 self.db 是一个已初始化的 SqliteDatabase 实例
             if not isinstance(self.db, SqliteDatabase) and not isinstance(self.db, Proxy) or \
                (isinstance(self.db, Proxy) and self.db.obj is None):
-                logger.error("Database not initialized for TranslationCache.get")
-                return None
+                logger.warning("Database not initialized for TranslationCache.get, attempting to initialize now")
+                # 尝试初始化数据库
+                init_db()
+                # 重新检查初始化是否成功
+                if not isinstance(self.db, SqliteDatabase) and not isinstance(self.db, Proxy) or \
+                   (isinstance(self.db, Proxy) and self.db.obj is None):
+                    logger.error("Database initialization failed, cannot retrieve from cache")
+                    return None
 
             with self.db.connection_context():
                 cached_item = _TranslationCache.get_or_none(
@@ -130,8 +136,14 @@ class TranslationCache:
         try:
             if not isinstance(self.db, SqliteDatabase) and not isinstance(self.db, Proxy) or \
                (isinstance(self.db, Proxy) and self.db.obj is None):
-                logger.error("Database not initialized for TranslationCache.set")
-                return
+                logger.warning("Database not initialized for TranslationCache.set, attempting to initialize now")
+                # 尝试初始化数据库
+                init_db()
+                # 重新检查初始化是否成功
+                if not isinstance(self.db, SqliteDatabase) and not isinstance(self.db, Proxy) or \
+                   (isinstance(self.db, Proxy) and self.db.obj is None):
+                    logger.error("Database initialization failed, cannot save to cache")
+                    return
 
             with self.db.connection_context():
                 _TranslationCache.replace(  # 使用 replace 而不是 create 来利用 ON CONFLICT REPLACE
@@ -294,6 +306,6 @@ def clean_test_db(test_db_instance: SqliteDatabase) -> None:
 
 
 # 在模块加载时初始化生产环境数据库
-# init_db() # 考虑是否在模块加载时自动初始化，或者由应用主程序显式调用
-# 对于库来说，通常不在导入时执行有副作用的操作（如创建文件、连接数据库）
-# 最好由应用的入口点来调用 init_db()。
+init_db() # 自动初始化数据库，确保在使用TranslationCache前数据库已准备好
+# 虽然库通常不在导入时执行有副作用的操作，但这里为了确保缓存功能正常工作，
+# 我们在模块加载时就初始化数据库，避免"Database not initialized"错误

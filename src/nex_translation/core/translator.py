@@ -1,39 +1,14 @@
-import html
-import json
 import logging
 import os
-import re
 import unicodedata
 from copy import copy
 from string import Template
 from typing import cast
-import deepl
-import ollama
-import openai
-import requests
-import xinference_client
-from azure.ai.translation.text import TextTranslationClient
-from azure.core.credentials import AzureKeyCredential
-from tencentcloud.common import credential
-from tencentcloud.tmt.v20180321.models import (
-    TextTranslateRequest,
-    TextTranslateResponse,
-)
-from tencentcloud.tmt.v20180321.tmt_client import TmtClient
 
 from src.nex_translation.infrastructure.cache import TranslationCache
 from src.nex_translation.infrastructure.config import ConfigManager
 
-
-from tenacity import retry, retry_if_exception_type
-from tenacity import stop_after_attempt
-from tenacity import wait_exponential
-
-
 logger = logging.getLogger(__name__)
-
-def remove_control_characters(s):
-    return "".join(ch for ch in s if unicodedata.category(ch)[0] != "C")
 
 
 class BaseTranslator:
@@ -150,16 +125,3 @@ class BaseTranslator:
 
     def __str__(self):
         return f"{self.name} {self.lang_in} {self.lang_out} {self.model}"
-
-    def get_rich_text_left_placeholder(self, id: int):
-        return f"<b{id}>"
-
-    def get_rich_text_right_placeholder(self, id: int):
-        return f"</b{id}>"
-
-    def get_formular_placeholder(self, id: int):
-        return self.get_rich_text_left_placeholder(
-            id
-        ) + self.get_rich_text_right_placeholder(id)
-
-

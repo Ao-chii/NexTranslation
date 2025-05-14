@@ -200,3 +200,242 @@
 2025-05-14 16:42:46,733 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
 2025-05-14 16:42:47,414 [INFO] nex_translation.main:41 - 布局分析模型已加载
 2025-05-14 16:42:47,415 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:55:36,530 [ERROR] nex_translation.main:49 - 导入错误: No module named 'src.nex_translation.core.gui'
+2025-05-14 16:55:36,530 [ERROR] nex_translation.main:50 - 请确保已安装所有依赖: pip install -r requirements.txt
+2025-05-14 16:56:06,479 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:56:07,091 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:56:07,091 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 17:23:19,521 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 17:23:20,098 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 17:23:20,098 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 17:23:30,668 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 17:24:26,681 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 17:24:27,300 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 17:24:27,302 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 17:24:34,174 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 17:24:35,749 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:35,749 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:35,750 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:35,750 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,206 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,207 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,419 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,420 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,436 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,437 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,490 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,490 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,784 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,784 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,829 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,829 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:36,841 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:36,841 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:37,093 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,093 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:37,306 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,306 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,307 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:37,307 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:37,403 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,489 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,575 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:37,631 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:39,309 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,309 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,310 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,312 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,578 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:39,579 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,609 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:39,609 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:39,857 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:39,858 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:40,055 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:40,055 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:40,163 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:40,389 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:40,408 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:41,006 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:42,942 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:43,254 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:59,533 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:59,533 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:59,533 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:59,533 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:24:59,951 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:24:59,952 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:00,092 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:00,092 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:00,159 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:00,430 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:00,755 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:01,386 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:02,673 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:02,673 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:02,676 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:02,680 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:02,977 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:02,977 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:03,416 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:03,417 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:03,520 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:03,521 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:03,700 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:03,813 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:03,954 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:04,062 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:16,601 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:16,601 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:16,601 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:16,601 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:16,894 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:16,896 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:16,925 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:16,925 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:17,509 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:17,510 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:17,664 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:17,664 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:17,667 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:17,667 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:17,809 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:17,954 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:18,114 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:18,228 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:18,625 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:18,625 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:18,625 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:18,626 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:18,805 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:18,806 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:18,940 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:18,941 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,059 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,060 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,079 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,079 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,132 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,133 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,264 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,264 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,552 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,553 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,577 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,577 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:19,579 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,600 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:19,882 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:20,103 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:20,388 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:20,656 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:20,765 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:20,765 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:20,765 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:20,765 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:20,968 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:20,969 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,031 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,032 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,087 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,087 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,390 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,390 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,521 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,522 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,714 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,715 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,752 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,753 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,853 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,853 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:21,929 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:21,989 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:22,397 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:22,605 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,033 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,033 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,033 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,033 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,288 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,289 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,416 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,416 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,455 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,455 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,753 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,753 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:23,840 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:23,843 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:24,140 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:24,141 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:24,158 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:24,459 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:24,873 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:24,971 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:25,265 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:25,573 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:25,748 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:25,750 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:25,750 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:25,750 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,070 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,070 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,189 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,189 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,213 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,214 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,376 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,376 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,400 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,400 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,689 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,689 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:26,946 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:26,946 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,011 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,012 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,038 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,039 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,096 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,096 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,308 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,309 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,475 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,476 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:114 - Database not initialized for TranslationCache.get
+2025-05-14 17:25:27,503 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,755 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:27,927 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:25:28,322 [ERROR] nex_translation.src.nex_translation.infrastructure.cache:133 - Database not initialized for TranslationCache.set
+2025-05-14 17:33:28,374 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:33:45,092 [INFO] nex_translation.nex_translation.infrastructure.cache:189 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:34:01,820 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:34:19,595 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:35:09,178 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:35:10,030 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-14 17:35:10,030 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:35:10,030 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-14 17:35:10,030 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-14 17:35:10,645 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-14 17:35:10,645 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-14 17:35:19,402 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 17:47:02,365 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:47:03,220 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-14 17:47:03,220 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:47:03,222 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-14 17:47:03,222 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-14 17:47:03,855 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-14 17:47:03,855 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-14 17:47:04,049 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:47:19,635 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:47:20,439 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-14 17:47:20,439 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 17:47:20,439 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-14 17:47:20,439 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-14 17:47:21,069 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-14 17:47:21,069 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-14 17:47:36,738 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 21:07:59,726 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 21:08:01,527 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 21:08:16,831 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 21:08:19,374 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db

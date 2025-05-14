@@ -7,7 +7,7 @@ import requests # 确保导入
 from pathlib import Path
 
 from nex_translation.core.translator import BaseTranslator
-from nex_translation.core.google_translator import GoogleTranslator
+from nex_translation.core.translator import GoogleTranslator
 from nex_translation.infrastructure.config import ConfigManager # 确保导入
 from nex_translation.infrastructure.cache import TranslationCache, init_db, db_proxy, _TranslationCache # 确保导入
 from nex_translation.utils.exceptions import TranslationError # 确保导入

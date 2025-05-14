@@ -1,0 +1,104 @@
+2025-05-14 14:06:49,125 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:06:49,126 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:06:49,126 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:06:49,133 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:06:49,133 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:06:49,134 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:09:01,892 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:09:01,893 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:09:01,893 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:09:01,899 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:09:01,899 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:09:01,899 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:09:16,785 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:09:16,785 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:09:16,785 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:09:16,794 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:09:16,794 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:09:16,794 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:09:36,211 [INFO] nex_translation.src.nex_translation.core.pdf_processor:470 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-14 14:11:12,532 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:11:12,532 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:11:12,532 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:11:12,537 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:11:12,537 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:11:12,537 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:14:45,577 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:14:45,577 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:14:45,577 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:14:45,577 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:14:45,577 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:14:45,577 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:15:01,486 [WARNING] nex_translation.nex_translation.core.translator:65 - Failed to load config for google: 'ConfigManager' object has no attribute 'get_translator_config'
+2025-05-14 14:15:01,487 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 14:33:30,328 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:33:30,328 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:33:30,328 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:33:30,331 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:33:30,331 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:33:30,331 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:44:29,505 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:44:29,505 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:44:29,505 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:44:29,505 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:44:29,505 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:44:29,505 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:44:39,821 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 14:52:49,747 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:52:49,747 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:52:49,747 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:52:49,747 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:52:49,747 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:52:49,747 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:53:01,723 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 14:55:11,370 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:55:11,370 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 14:55:11,370 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:55:11,375 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 14:55:11,375 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 14:55:11,375 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 14:55:22,862 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:07:01,448 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:07:01,448 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:07:01,448 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:07:01,448 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:07:01,448 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:07:01,448 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:07:15,529 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:08:25,690 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:08:25,690 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:08:25,690 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:08:25,690 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:08:25,690 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:08:25,690 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:09:20,656 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:18:40,220 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:18:40,220 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:18:40,222 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:18:40,222 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:18:40,222 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:18:40,222 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:19:24,630 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:26:20,697 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:26:20,697 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:26:20,697 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:26:20,697 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:26:20,697 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:26:20,697 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:26:33,950 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:32:31,352 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:32:31,352 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:32:31,352 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:32:31,356 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:32:31,356 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:32:31,356 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:39:16,157 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:39:16,157 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:39:16,157 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:39:16,161 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:39:16,161 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:39:16,161 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:39:20,389 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 15:39:21,022 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 15:39:21,022 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 15:40:39,828 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.

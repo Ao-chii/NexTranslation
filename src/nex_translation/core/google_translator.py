@@ -1,33 +1,28 @@
-import re
+from src.nex_translation.core.translator import BaseTranslator
+from src.nex_translation.utils.exceptions import TranslationError
 import html
+import logging
+import re
 import requests
-from typing import Optional
-from string import Template
-from ..core.translator import BaseTranslator
-from ..utils.exceptions import TranslationError
-from ..utils.logger import get_logger
+from src.nex_translation.core.translator import remove_control_characters
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 class GoogleTranslator(BaseTranslator):
-    """Google翻译实现类"""
     name = "google"
-    
-    def __init__(
-        self,
-        model: str = "",
-        envs: Optional[dict] = None,
-        prompt: Optional[Template] = None,
-        ignore_cache: bool = False,
-    ):
-        super().__init__(model, envs, prompt, ignore_cache)
+    lang_map = {"zh": "zh-CN"}
+
+    def __init__(self, lang_in, lang_out, model, ignore_cache=False, envs=None, prompt=None, **kwargs):
+        super().__init__(lang_in, lang_out, model, ignore_cache)
+        self.session = requests.Session()
         self.endpoint = "https://translate.google.com/m"
         self.headers = {
             "User-Agent": "Mozilla/4.0 (compatible;MSIE 6.0;Windows NT 5.1;SV1;.NET CLR 1.1.4322;.NET CLR 2.0.50727;.NET CLR 3.0.04506.30)"  # noqa: E501
         }
-        self.session = requests.Session()
+        if envs:
+            self.set_envs(envs)
         logger.debug(f"Initialized {self.name} translator")
-        
+
     def do_translate(self, text: str) -> str:
         """执行翻译"""
         if len(text) > 5000:

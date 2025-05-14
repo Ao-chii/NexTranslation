@@ -20,8 +20,8 @@ from tenacity import retry, wait_fixed
 
 from nex_translation.core.translator import BaseTranslator
 from nex_translation.core.google_translator import GoogleTranslator
-from ..utils.logger import get_logger
-from ..utils.exceptions import (
+from nex_translation.utils.logger import get_logger
+from nex_translation.utils.exceptions import (
     TranslationError,
     TranslationQualityError,
     NetworkError,

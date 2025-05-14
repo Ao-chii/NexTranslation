@@ -201,3 +201,41 @@
 2025-05-12 16:46:32,249 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\21071\.cache\nex_translation\cache.v1.db
 2025-05-12 16:46:32,249 [INFO] nex_translation.nex_translation:21 - Cache system initialized
 2025-05-12 16:46:32,249 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:16:33,790 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-12 17:16:33,790 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-12 17:16:33,790 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:16:33,796 [INFO] nex_translation.nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-12 17:16:34,614 [INFO] nex_translation.nex_translation:163 - 布局分析模型已加载。
+2025-05-12 17:16:34,615 [INFO] nex_translation.nex_translation:171 - 使用的翻译服务: google
+2025-05-12 17:16:34,615 [INFO] nex_translation.nex_translation:178 - 翻译所有页面。
+2025-05-12 17:16:34,617 [INFO] nex_translation.nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-12 17:16:34,618 [INFO] nex_translation.nex_translation:200 - 正在处理 1 个文件...
+2025-05-12 17:16:34,636 [INFO] nex_translation.nex_translation.core.pdf_processor:470 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-12 17:16:34,721 [ERROR] nex_translation.nex_translation.core.pdf_processor:183 - PDF translation failed: GoogleTranslator.__init__() got an unexpected keyword argument 'lang_in'
+2025-05-12 17:16:34,721 [ERROR] nex_translation.nex_translation:272 - 发生意外错误: GoogleTranslator.__init__() got an unexpected keyword argument 'lang_in'
+2025-05-12 17:25:49,760 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-12 17:25:49,760 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-12 17:25:49,760 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:25:49,763 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-12 17:25:49,763 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-12 17:25:49,763 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:25:49,763 [INFO] nex_translation.main:318 - 正在启动 NexTranslation v0.2.0 GUI...
+2025-05-12 17:25:49,763 [INFO] nex_translation.main:319 - 当前工作目录: C:\Users\yuanlin cao\NexTranslation
+2025-05-12 17:25:49,763 [INFO] nex_translation.main:323 - 配置已加载
+2025-05-12 17:25:49,770 [INFO] nex_translation.main:326 - 正在加载文档布局分析模型...
+2025-05-12 17:25:50,563 [INFO] nex_translation.main:330 - 文档布局分析模型已加载
+2025-05-12 17:25:50,563 [INFO] nex_translation.main:335 - 正在创建GUI界面...
+2025-05-12 17:25:50,668 [INFO] nex_translation.main:337 - GUI界面已创建，准备启动...
+2025-05-12 17:27:05,856 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-12 17:27:05,856 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-12 17:27:05,856 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:27:05,865 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-12 17:27:05,865 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-12 17:27:05,866 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-12 17:27:05,866 [INFO] nex_translation.main:318 - 正在启动 NexTranslation v0.2.0 GUI...
+2025-05-12 17:27:05,867 [INFO] nex_translation.main:319 - 当前工作目录: C:\Users\yuanlin cao\NexTranslation
+2025-05-12 17:27:05,867 [INFO] nex_translation.main:323 - 配置已加载
+2025-05-12 17:27:05,868 [INFO] nex_translation.main:326 - 正在加载文档布局分析模型...
+2025-05-12 17:27:06,659 [INFO] nex_translation.main:330 - 文档布局分析模型已加载
+2025-05-12 17:27:06,659 [INFO] nex_translation.main:335 - 正在创建GUI界面...
+2025-05-12 17:27:06,764 [INFO] nex_translation.main:337 - GUI界面已创建，准备启动...

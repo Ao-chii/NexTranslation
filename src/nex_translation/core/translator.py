@@ -1,109 +1,96 @@
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
-from string import Template
+import html
+import json
 import logging
-from ..infrastructure.cache import TranslationCache
-from ..infrastructure.config import ConfigManager
-from copy import copy
 import os
-from ..utils.logger import get_logger
+import re
+import unicodedata
+from copy import copy
+from string import Template
+from typing import cast
+import deepl
+import ollama
+import openai
+import requests
+import xinference_client
+from azure.ai.translation.text import TextTranslationClient
+from azure.core.credentials import AzureKeyCredential
+from tencentcloud.common import credential
+from tencentcloud.tmt.v20180321.models import (
+    TextTranslateRequest,
+    TextTranslateResponse,
+)
+from tencentcloud.tmt.v20180321.tmt_client import TmtClient
 
-logger = get_logger(__name__)
+from src.nex_translation.infrastructure.cache import TranslationCache
+from src.nex_translation.infrastructure.config import ConfigManager
 
-class BaseTranslator(ABC):
-    """翻译器基类"""
 
-    name: str = ""  # 翻译器名称
-    envs: Dict[str, Any] = {}  # 所需环境变量
-    CustomPrompt: bool = False  # 是否支持自定义prompt
+from tenacity import retry, retry_if_exception_type
+from tenacity import stop_after_attempt
+from tenacity import wait_exponential
 
-    def __init__(
-        self,
-        model: str = "",
-        envs: Optional[Dict] = None,
-        prompt: Optional[Template] = None,
-        ignore_cache: bool = False,
-        lang_in: str = "en",
-        lang_out: str = "zh-CN",
-    ):
-        """
-        初始化翻译器
-        Args:
-            model: 模型名称
-            envs: 环境变量配置
-            prompt: 自定义prompt模板
-            ignore_cache: 是否忽略缓存
-            lang_in: 输入语言代码
-            lang_out: 输出语言代码
-        """
+
+logger = logging.getLogger(__name__)
+
+def remove_control_characters(s):
+    return "".join(ch for ch in s if unicodedata.category(ch)[0] != "C")
+
+
+class BaseTranslator:
+    name = "base"
+    envs = {}
+    lang_map: dict[str, str] = {}
+    CustomPrompt = False
+
+    def __init__(self, lang_in: str, lang_out: str, model: str, ignore_cache: bool):
+        lang_in = self.lang_map.get(lang_in.lower(), lang_in)
+        lang_out = self.lang_map.get(lang_out.lower(), lang_out)
+        self.lang_in = lang_in
+        self.lang_out = lang_out
         self.model = model
-        self.lang_in = lang_in  # 输入语言
-        self.lang_out = lang_out  # 输出语言
         self.ignore_cache = ignore_cache
-        self.set_envs(envs)
-        self.cache = TranslationCache()
-        self.prompt_template = prompt
-        # 只在DEBUG级别打印初始化信息
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f"BaseTranslator initialized with lang_in={self.lang_in}, lang_out={self.lang_out}")
 
-    def set_envs(self, envs: Optional[Dict] = None):
-        """设置环境变量"""
-        try:
-            # 使用单例模式获取配置管理器实例
-            config_manager = ConfigManager.get_instance()
+        self.cache = TranslationCache(
+            self.name,
+            {
+                "lang_in": lang_in,
+                "lang_out": lang_out,
+                "model": model,
+            },
+        )
 
-            # 复制类默认值
-            self.envs = copy(self.envs)
+    def set_envs(self, envs):
+        # Detach from self.__class__.envs
+        # Cannot use self.envs = copy(self.__class__.envs)
+        # because if set_envs called twice, the second call will override the first call
+        self.envs = copy(self.envs)
+        if ConfigManager.get_translator_by_name(self.name):
+            self.envs = ConfigManager.get_translator_by_name(self.name)
+        needUpdate = False
+        for key in self.envs:
+            if key in os.environ:
+                self.envs[key] = os.environ[key]
+                needUpdate = True
+        if needUpdate:
+            ConfigManager.set_translator_by_name(self.name, self.envs)
+        if envs is not None:
+            for key in envs:
+                self.envs[key] = envs[key]
+            ConfigManager.set_translator_by_name(self.name, self.envs)
 
-            # 获取配置文件中的设置
-            try:
-                saved_config = config_manager.get_translator_config(self.name)
-                if saved_config:
-                    self.envs.update(saved_config)
-            except Exception as e:
-                logger.warning(f"Failed to load config for {self.name}: {str(e)}")
-
-            # 检查环境变量是否有更新
-            need_update = False
-            for key in self.envs:
-                if key in os.environ:
-                    if self.envs[key] != os.environ[key]:
-                        self.envs[key] = os.environ[key]
-                        need_update = True
-
-            # 如果环境变量有更新，保存到配置文件
-            if need_update:
-                try:
-                    config_manager.update_translator_config(self.name, self.envs)
-                except Exception as e:
-                    logger.warning(f"Failed to save updated config for {self.name}: {str(e)}")
-
-            # 处理传入的配置参数
-            if envs:
-                self.envs.update(envs)
-                try:
-                    config_manager.update_translator_config(self.name, self.envs)
-                except Exception as e:
-                    logger.warning(f"Failed to save config with new envs for {self.name}: {str(e)}")
-
-        except Exception as e:
-            logger.error(f"Error in set_envs for {self.name}: {str(e)}")
-            raise e
-
-
-    def add_cache_impact_parameters(self, k: str, v: Any):
-        """添加影响翻译质量的参数以区分不同参数下的翻译效果"""
+    def add_cache_impact_parameters(self, k: str, v):
+        """
+        Add parameters that affect the translation quality to distinguish the translation effects under different parameters.
+        :param k: key
+        :param v: value
+        """
         self.cache.add_params(k, v)
 
     def translate(self, text: str, ignore_cache: bool = False) -> str:
         """
-        翻译文本，这是其他部分应该调用的方法
-        Args:
-            text: 要翻译的文本
-            ignore_cache: 是否忽略缓存
-        Returns:
-            翻译后的文本
+        Translate the text, and the other part should call this method.
+        :param text: text to translate
+        :return: translated text
         """
         if not (self.ignore_cache or ignore_cache):
             cache = self.cache.get(text)
@@ -114,48 +101,65 @@ class BaseTranslator(ABC):
         self.cache.set(text, translation)
         return translation
 
-    @abstractmethod
     def do_translate(self, text: str) -> str:
         """
-        实际执行翻译的方法，子类必须实现
-        Args:
-            text: 要翻译的文本
-        Returns:
-            翻译后的文本
+        Actual translate text, override this method
+        :param text: text to translate
+        :return: translated text
         """
         raise NotImplementedError
 
-    def prompt(self, text: str, prompt_template: Template | None = None) -> list[dict[str, str]]:
-        """
-        生成翻译提示 - 专注于英译中场景
-        Args:
-            text: 要翻译的文本
-            prompt_template: 提示模板
-        Returns:
-            提示消息列表
-        """
+    def prompt(
+        self, text: str, prompt_template: Template | None = None
+    ) -> list[dict[str, str]]:
         try:
-            if prompt_template:
-                return [{
+            return [
+                {
                     "role": "user",
-                    "content": prompt_template.safe_substitute({
-                        "text": text,
-                    })
-                }]
+                    "content": cast(Template, prompt_template).safe_substitute(
+                        {
+                            "lang_in": self.lang_in,
+                            "lang_out": self.lang_out,
+                            "text": text,
+                        }
+                    ),
+                }
+            ]
+        except AttributeError:  # `prompt_template` is None
+            pass
         except Exception:
-            logging.exception("解析提示模板时出错，使用默认提示。")
+            logging.exception("Error parsing prompt, use the default prompt.")
 
-        return [{
-            "role": "user",
-            "content": (
-                "你是一个专业的英译中翻译引擎。请将以下英文文本翻译成中文，"
-                "保持公式标记 {v*} 不变。直接输出翻译结果，不要包含其他文本。"
-                "\n\n"
-                f"原文：{text}"
-                "\n\n"
-                "译文："
-            )
-        }]
+        return [
+            {
+                "role": "user",
+                "content": (
+                    "You are a professional, authentic machine translation engine. "
+                    "Only Output the translated text, do not include any other text."
+                    "\n\n"
+                    f"Translate the following markdown source text to {self.lang_out}. "
+                    "Keep the formula notation {v*} unchanged. "
+                    "Output translation directly without any additional text."
+                    "\n\n"
+                    f"Source Text: {text}"
+                    "\n\n"
+                    "Translated Text:"
+                ),
+            },
+        ]
 
     def __str__(self):
-        return f"{self.name} {self.model}"
+        return f"{self.name} {self.lang_in} {self.lang_out} {self.model}"
+
+    def get_rich_text_left_placeholder(self, id: int):
+        return f"<b{id}>"
+
+    def get_rich_text_right_placeholder(self, id: int):
+        return f"</b{id}>"
+
+    def get_formular_placeholder(self, id: int):
+        return self.get_rich_text_left_placeholder(
+            id
+        ) + self.get_rich_text_right_placeholder(id)
+
+

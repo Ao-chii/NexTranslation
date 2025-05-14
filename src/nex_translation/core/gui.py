@@ -354,14 +354,7 @@ demo_recaptcha = """
 
 from babeldoc import __version__ as babeldoc_version
 
-tech_details_string = f"""
-                    <summary>Technical details</summary>
-                    - GitHub: <a href="https://github.com/Byaidu/PDFMathTranslate">Byaidu/PDFMathTranslate</a><br>
-                    - BabelDOC: <a href="https://github.com/funstory-ai/BabelDOC">funstory-ai/BabelDOC</a><br>
-                    - GUI by: <a href="https://github.com/reycn">Rongxin</a><br>
-                    - src Version: {__version__} <br>
-                    - BabelDOC Version: {babeldoc_version}
-                """
+
 cancellation_event_map = {}
 
 
@@ -375,7 +368,7 @@ with gr.Blocks(
     head="",
 ) as demo:
     gr.Markdown(
-        "# [NexTranslation @ GitHub](https://github.com/Byaidu/PDFMathTranslate)"
+        "# [NexTranslation @ GitHub](https://github.com/Ao-chii/NexTranslation)"
     )
     with gr.Row():
         with gr.Column(scale=1):
@@ -436,7 +429,7 @@ with gr.Blocks(
                 interactive=True,
             )
 
-            with gr.Accordion("Open for More Experimental Options!", open=False):
+            with gr.Accordion("Open for More Experimental Options!", open=False, visible=False):
                 visible=False,
                 gr.Markdown("#### Experimental")
                 threads = gr.Textbox(
@@ -510,10 +503,6 @@ with gr.Blocks(
             recaptcha_box = gr.HTML('<div id="recaptcha-box"></div>')
             translate_btn = gr.Button("Translate", variant="primary")
             cancellation_btn = gr.Button("Cancel", variant="secondary")
-            tech_details_tog = gr.Markdown(
-                tech_details_string,
-                elem_classes=["secondary-text"],
-            )
             page_range.select(on_select_page, page_range, page_input)
             service.select(
                 on_select_service,
@@ -604,119 +593,32 @@ with gr.Blocks(
         inputs=[state],
     )
 
-
-def parse_user_passwd(file_path: str) -> tuple:
+def setup_gui(server_port=7860) -> None:
     """
-    Parse the user name and password from the file.
+    Setup the GUI on local port 7860.
 
     Inputs:
-        - file_path: The file path to read.
-    Outputs:
-        - tuple_list: The list of tuples of user name and password.
-        - content: The content of the file
-    """
-    tuple_list = []
-    content = ""
-    if not file_path:
-        return tuple_list, content
-    if len(file_path) == 2:
-        try:
-            with open(file_path[1], "r", encoding="utf-8") as file:
-                content = file.read()
-        except FileNotFoundError:
-            print(f"Error: File '{file_path[1]}' not found.")
-    try:
-        with open(file_path[0], "r", encoding="utf-8") as file:
-            tuple_list = [
-                tuple(line.strip().split(",")) for line in file if line.strip()
-            ]
-    except FileNotFoundError:
-        print(f"Error: File '{file_path[0]}' not found.")
-    return tuple_list, content
-
-
-def setup_gui(
-    share: bool = False, auth_file: list = ["", ""], server_port=7860
-) -> None:
-    """
-    Setup the GUI with the given parameters.
-
-    Inputs:
-        - share: Whether to share the GUI.
-        - auth_file: The file path to read the user name and password.
+        - server_port: The port to run the server on (default: 7860).
 
     Outputs:
         - None
     """
-    user_list, html = parse_user_passwd(auth_file)
-    if flag_demo:
-        demo.launch(server_name="0.0.0.0", max_file_size="5mb", inbrowser=True)
-    else:
-        if len(user_list) == 0:
-            try:
-                demo.launch(
-                    server_name="0.0.0.0",
-                    debug=True,
-                    inbrowser=True,
-                    share=share,
-                    server_port=server_port,
-                )
-            except Exception:
-                print(
-                    "Error launching GUI using 0.0.0.0.\nThis may be caused by global mode of proxy software."
-                )
-                try:
-                    demo.launch(
-                        server_name="127.0.0.1",
-                        debug=True,
-                        inbrowser=True,
-                        share=share,
-                        server_port=server_port,
-                    )
-                except Exception:
-                    print(
-                        "Error launching GUI using 127.0.0.1.\nThis may be caused by global mode of proxy software."
-                    )
-                    demo.launch(
-                        debug=True, inbrowser=True, share=True, server_port=server_port
-                    )
-        else:
-            try:
-                demo.launch(
-                    server_name="0.0.0.0",
-                    debug=True,
-                    inbrowser=True,
-                    share=share,
-                    auth=user_list,
-                    auth_message=html,
-                    server_port=server_port,
-                )
-            except Exception:
-                print(
-                    "Error launching GUI using 0.0.0.0.\nThis may be caused by global mode of proxy software."
-                )
-                try:
-                    demo.launch(
-                        server_name="127.0.0.1",
-                        debug=True,
-                        inbrowser=True,
-                        share=share,
-                        auth=user_list,
-                        auth_message=html,
-                        server_port=server_port,
-                    )
-                except Exception:
-                    print(
-                        "Error launching GUI using 127.0.0.1.\nThis may be caused by global mode of proxy software."
-                    )
-                    demo.launch(
-                        debug=True,
-                        inbrowser=True,
-                        share=True,
-                        auth=user_list,
-                        auth_message=html,
-                        server_port=server_port,
-                    )
+    try:
+        demo.launch(
+            server_name="127.0.0.1",
+            debug=True,
+            inbrowser=True,
+            share=False,
+            server_port=server_port,
+        )
+    except Exception as e:
+        print(f"Error launching GUI: {str(e)}")
+        print("Trying alternative launch method...")
+        demo.launch(
+            debug=True,
+            inbrowser=True,
+            server_port=server_port
+        )
 
 
 # For auto-reloading while developing

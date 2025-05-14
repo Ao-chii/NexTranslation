@@ -102,3 +102,101 @@
 2025-05-14 15:39:21,022 [INFO] nex_translation.main:41 - 布局分析模型已加载
 2025-05-14 15:39:21,022 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
 2025-05-14 15:40:39,828 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:48:30,233 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:48:30,233 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:48:30,233 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:48:30,233 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:48:30,233 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:48:30,233 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:48:34,544 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 15:48:35,254 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 15:48:35,254 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 15:51:41,866 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:51:41,866 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:51:41,866 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:51:41,871 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:51:41,871 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:51:41,872 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:51:46,178 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 15:51:46,827 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 15:51:46,827 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 15:52:02,541 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 15:58:57,933 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:58:57,933 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 15:58:57,933 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:58:57,933 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 15:58:57,933 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 15:58:57,933 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 15:59:01,624 [ERROR] nex_translation.main:53 - 启动失败: 'bool' object has no attribute '_id'
+2025-05-14 16:02:02,316 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:02:02,316 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:02:02,316 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:02:02,320 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:02:02,320 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:02:02,320 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:02:05,857 [ERROR] nex_translation.main:53 - 启动失败: 'bool' object has no attribute '_id'
+2025-05-14 16:03:15,462 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:03:15,462 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:03:15,462 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:03:15,462 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:03:15,462 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:03:15,462 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:03:19,672 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:03:20,326 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:03:20,326 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:03:53,877 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:03:53,877 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:03:53,877 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:03:53,885 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:03:53,885 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:03:53,885 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:03:58,005 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:03:58,604 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:03:58,604 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:04:50,539 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:04:50,539 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:04:50,539 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:04:50,539 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:04:50,539 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:04:50,539 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:04:54,669 [ERROR] nex_translation.main:53 - 启动失败: 'bool' object has no attribute '_id'
+2025-05-14 16:06:17,421 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:06:17,421 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:06:17,421 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:06:17,421 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:06:17,421 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:06:17,421 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:06:21,603 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:06:22,193 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:06:22,193 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:07:08,579 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:07:08,579 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:07:08,579 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:07:08,579 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:07:08,579 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:07:08,579 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:07:12,734 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:07:13,313 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:07:13,326 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:08:11,311 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 16:21:59,610 [ERROR] nex_translation.main:49 - 导入错误: cannot import name 'translate' from partially initialized module 'src.nex_translation.core.pdf_processor' (most likely due to a circular import) (c:\Users\yuanlin cao\NexTranslation\src\nex_translation\core\pdf_processor.py)
+2025-05-14 16:21:59,610 [ERROR] nex_translation.main:50 - 请确保已安装所有依赖: pip install -r requirements.txt
+2025-05-14 16:23:00,631 [INFO] nex_translation.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:23:00,631 [INFO] nex_translation.nex_translation:21 - Cache system initialized
+2025-05-14 16:23:00,632 [INFO] nex_translation.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:23:00,634 [INFO] nex_translation.src.nex_translation.infrastructure.cache:183 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-14 16:23:00,634 [INFO] nex_translation.src.nex_translation:21 - Cache system initialized
+2025-05-14 16:23:00,634 [INFO] nex_translation.src.nex_translation:37 - NexTranslation v0.2.0 initialized
+2025-05-14 16:23:04,928 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:23:05,545 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:23:05,545 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:23:39,191 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 16:28:12,196 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-14 16:39:14,252 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:39:14,901 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:39:14,903 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...
+2025-05-14 16:40:05,963 [ERROR] nex_translation.main:49 - 导入错误: cannot import name '__version__' from 'src.nex_translation.core' (unknown location)
+2025-05-14 16:40:05,963 [ERROR] nex_translation.main:50 - 请确保已安装所有依赖: pip install -r requirements.txt
+2025-05-14 16:42:46,733 [INFO] nex_translation.main:33 - 正在加载布局分析模型...
+2025-05-14 16:42:47,414 [INFO] nex_translation.main:41 - 布局分析模型已加载
+2025-05-14 16:42:47,415 [INFO] nex_translation.main:44 - 正在启动GUI界面在端口7860...

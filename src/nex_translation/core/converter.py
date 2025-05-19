@@ -12,10 +12,11 @@ from typing import Dict
 import numpy as np
 from pdfminer.converter import PDFConverter
 from pdfminer.layout import LTChar, LTFigure, LTLine, LTPage
-from pdfminer.pdffont import PDFUnicodeNotDefined
+from pdfminer.pdffont import PDFUnicodeNotDefined, PDFCIDFont
 from pdfminer.pdfinterp import PDFGraphicState, PDFResourceManager
 from pdfminer.utils import apply_matrix_pt, mult_matrix
 from tenacity import retry, wait_fixed
+from pymupdf import Font
 
 from nex_translation.core.translator import BaseTranslator
 from nex_translation.core.google_translator import GoogleTranslator
@@ -124,6 +125,7 @@ class TranslateConverter(PDFConverterEx):
         envs: Dict = None,
         prompt: Template = None,
         ignore_cache: bool = False,
+        noto: Font = None,  # 添加Font对象参数
     ) -> None:
         super().__init__(rsrcmgr)
         self.vfont = vfont
@@ -133,9 +135,10 @@ class TranslateConverter(PDFConverterEx):
         self.translator: BaseTranslator = None
         # 初始化字体映射
         self.fontid = {}
-        self.fontmap = {"tiro": None}
-
-        # 初始化翻译器
+        self.fontmap = {"tiro": None, "SourceHanSerifCN": None}
+        self.noto = noto  # 保存Font对象
+        
+        # 初始化翻译器 - 固定为英译中
         if service is None:
             service = "google"  # 默认使用Google翻译
         
@@ -393,9 +396,22 @@ class TranslateConverter(PDFConverterEx):
         
         ############################################################
         # C. 新文档排版
-        def raw_string(fcur: str, cstk: str) -> str:
-            """编码字符串"""
-            return "".join(["%04x" % ord(c) for c in cstk])
+        def raw_string(fcur: str, cstk: str):  # 编码字符串
+            if fcur == "SourceHanSerifCN":
+                # 中文字符使用4位16进制编码
+                try:
+                    # 直接将字符转换为4位16进制
+                    return "".join(["%04x" % ord(c) for c in cstk])
+                except Exception as e:
+                    logger.error(f"Error encoding Chinese character: {e}")
+                    # 出错时返回空格的编码
+                    return "".join(["%04x" % ord(" ") for _ in cstk])
+            elif fcur in self.fontmap and self.fontmap[fcur] is not None and isinstance(self.fontmap[fcur], PDFCIDFont):
+                # CID字体也使用4位16进制编码
+                return "".join(["%04x" % ord(c) for c in cstk])
+            else:
+                # 拉丁字符使用2位16进制编码
+                return "".join(["%02x" % ord(c) for c in cstk])
 
         # 使用固定的行高，因为只处理中文输出
         default_line_height = 1.4  # 固定使用中文行高
@@ -444,14 +460,29 @@ class TranslateConverter(PDFConverterEx):
                     ch = new[ptr]
                     fcur_ = None
                     try:
-                        if fcur_ is None and self.fontmap["tiro"].to_unichr(ord(ch)) == ch:
-                            fcur_ = "tiro"  # 默认拉丁字体
+                        # 先尝试使用拉丁字体
+                        if self.fontmap["tiro"] and self.fontmap["tiro"].to_unichr(ord(ch)) == ch:
+                            fcur_ = "tiro"
                     except Exception:
-                        fcur_ = "SourceHanSerifCN"  # 默认使用中文字体
+                        # 如果不是拉丁字符，使用中文字体
+                        pass
 
-                    # 计算字符宽度
+                # 如果字符不能用拉丁字体显示，使用中文字体
+                if fcur_ is None:
+                    fcur_ = "SourceHanSerifCN"
+                    
+                # 确定字符宽度
+                if fcur_ == "SourceHanSerifCN":
+                    # 使用Font对象计算中文字符宽度
+                    if self.noto is not None:
+                        adv = self.noto.char_lengths(ch, size)[0]
+                    else:
+                        # 没有Font对象时使用固定宽度
+                        adv = size
+                else:
+                    # 拉丁字符使用原始宽度
                     adv = self.fontmap[fcur_].char_width(ord(ch)) * size
-                    ptr += 1
+                ptr += 1
                 if (                                # 输出文字缓冲区
                     fcur_ != fcur                   # 1. 字体更新
                     or vy_regex                     # 2. 插入公式

@@ -27,10 +27,10 @@ from pdfminer.pdfparser import PDFParser
 from pymupdf import Document
 from babeldoc.assets.assets import get_font_and_metadata
 
-from .doclayout import OnnxModel
-from .converter import TranslateConverter 
-from .pdfinterpreter import PDFPageInterpreterEx
-
+from nex_translation.core.converter import TranslateConverter
+from nex_translation.core.doclayout import OnnxModel
+from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
+from nex_translation.infrastructure.config import ConfigManager
 from ..utils.exceptions import (
     PDFError,
     PDFFormatError,
@@ -38,13 +38,19 @@ from ..utils.exceptions import (
     LayoutAnalysisError
 )
 from ..utils.logger import get_logger
-from ..infrastructure.config import ConfigManager
+
 
 logger = get_logger(__name__)
 
 
 # 检查文件是否存在
 def check_files(files: List[str]) -> List[str]:
+    files = [
+        f for f in files if not f.startswith("http://")
+    ]
+    files = [
+        f for f in files if not f.startswith("https://")
+    ]
     missing_files = [file for file in files if not os.path.exists(file)]
     return missing_files
 
@@ -115,16 +121,8 @@ def translate_patch(
                     callback(progress)
                     
                 try:
-                    # 设置页面的必要属性
-                    setattr(page, 'pageno', pageno)
-                    setattr(page, 'page_xref', None)  # 初始化 page_xref 属性
-                    
-                    # 新建一个 xref 存放新指令流
-                    page.page_xref = doc_zh.get_new_xref()  # hack 插入页面的新 xref
-                    doc_zh.update_object(page.page_xref, "<<>>")
-                    doc_zh.update_stream(page.page_xref, b"")
-                    doc_zh[pageno].set_contents(page.page_xref)  # 使用 pageno 而不是 page.pageno
-                    
+                    page.pageno = pageno
+
                     # 使用当前处理的page
                     pix = doc_zh[pageno].get_pixmap()  # 使用pageno
                     image = np.fromstring(pix.samples, np.uint8).reshape(
@@ -290,7 +288,7 @@ def convert_to_pdfa(input_path, output_path):
         "pdfa_conformance": "B",
         "title": pdf.docinfo.get("/Title", ""),
         "author": pdf.docinfo.get("/Author", ""),
-        "creator": "PDF Math Translate",
+        "creator": "NexTranslation",
     }
 
     with pdf.open_metadata() as meta:

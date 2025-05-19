@@ -5,9 +5,9 @@ import sys
 import os
 from pathlib import Path
 from string import Template
-import logging
 from typing import List, Optional
 import time
+import logging
 
 # 从项目中导入
 from nex_translation import __version__, logger # 使用 __init__ 中的 logger

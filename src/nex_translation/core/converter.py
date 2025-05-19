@@ -1,5 +1,5 @@
 # 对外主要暴露的类：TranslateConverter 提供给pdf_processor.py
-#TranslateConverter 用于接收pdfminer解析的pdf内容流(作为输入)，进行翻译，输出翻译后的pdf内容流
+# TranslateConverter 用于接收pdfminer解析的pdf内容流(作为输入)，进行翻译，输出翻译后的pdf内容流
 
 import concurrent.futures
 import logging
@@ -17,10 +17,10 @@ from pdfminer.pdfinterp import PDFGraphicState, PDFResourceManager
 from pdfminer.utils import apply_matrix_pt, mult_matrix
 from tenacity import retry, wait_fixed
 
-from .translator import BaseTranslator
-from .google_translator import GoogleTranslator
-from ..utils.logger import get_logger
-from ..utils.exceptions import (
+from nex_translation.core.translator import BaseTranslator
+from nex_translation.core.google_translator import GoogleTranslator
+from nex_translation.utils.logger import get_logger
+from nex_translation.utils.exceptions import (
     TranslationError,
     TranslationQualityError,
     NetworkError,
@@ -43,8 +43,6 @@ class PDFConverterEx(PDFConverter):
         (x1, y1) = apply_matrix_pt(ctm, (x1, y1))
         mediabox = (0, 0, abs(x0 - x1), abs(y0 - y1))
         self.cur_item = LTPage(page.pageno, mediabox)
-        # 设置pageno属性，以便在receive_layout中使用
-        self.cur_item.pageno = page.pageno
 
     def end_page(self, page):
         # 重载返回指令流
@@ -54,8 +52,8 @@ class PDFConverterEx(PDFConverter):
         # 重载设置 pageno
         self._stack.append(self.cur_item)
         self.cur_item = LTFigure(name, bbox, mult_matrix(matrix, self.ctm))
-        # 设置pageno属性，以便在receive_layout中使用
-        self.cur_item.pageno = self._stack[-1].pageno
+        # 设置pageid属性，以便在receive_layout中使用
+        self.cur_item.pageid = self._stack[-1].pageid
 
     def end_figure(self, _: str) -> None:
         # 重载返回指令流
@@ -135,9 +133,12 @@ class TranslateConverter(PDFConverterEx):
         self.translator: BaseTranslator = None
         # 初始化字体映射
         self.fontid = {}
-        self.fontmap = {}
+        self.fontmap = {"tiro": None}
 
         # 初始化翻译器
+        if service is None:
+            service = "google"  # 默认使用Google翻译
+        
         param = service.split(":", 1)
         service_name = param[0]
         service_model = param[1] if len(param) > 1 else None
@@ -146,13 +147,14 @@ class TranslateConverter(PDFConverterEx):
 
         # 记录translator初始化
         logger.debug(f"Attempting to initialize translator: {service_name}")
-        if service_name == "google":
-            self.translator = GoogleTranslator(
-                model=service_model,
-                envs=envs,
-                prompt=prompt,
-                ignore_cache=ignore_cache
-            )
+        for translator in [GoogleTranslator, ]:
+            if service_name == translator.name:
+                self.translator = GoogleTranslator(
+                    model=service_model,
+                    envs=envs,
+                    prompt=prompt,
+                    ignore_cache=ignore_cache
+                )
         if not self.translator:
             logger.error(f"Failed to initialize translator: {service_name}")
             raise ValueError("Unsupported translation service")
@@ -160,31 +162,11 @@ class TranslateConverter(PDFConverterEx):
 
     def receive_layout(self, ltpage: LTPage):
         """处理页面布局"""
-        logger.info(f"Processing layout for page {ltpage.pageno}")
 
         # 检查fontmap和fontid是否为空
         logger.info(f"fontmap: {self.fontmap}, fontid: {self.fontid}")
 
-        # 如果fontmap为空，添加默认字体
-        if not self.fontmap:
-            logger.info("fontmap is empty, adding default fonts")
-            from pdfminer.pdffont import PDFFont
-            # 创建一个简单的PDFFont对象
-            class SimplePDFFont(PDFFont):
-                def __init__(self, name):
-                    self.name = name
-                def to_unichr(self, cid):
-                    return chr(cid)
-                def char_width(self, cid):
-                    return 1.0
-
-            # 添加默认字体
-            self.fontmap["tiro"] = SimplePDFFont("tiro")
-            self.fontmap["SourceHanSerifCN"] = SimplePDFFont("SourceHanSerifCN")
-            self.fontid[self.fontmap["tiro"]] = "tiro"
-            self.fontid[self.fontmap["SourceHanSerifCN"]] = "SourceHanSerifCN"
-
-        # 保持原有变量定义
+        # 段落
         sstk: list[str] = []            # 段落文字栈
         pstk: list[Paragraph] = []      # 段落属性栈
         vbkt: int = 0                   # 段落公式括号计数
@@ -252,7 +234,7 @@ class TranslateConverter(PDFConverterEx):
                 cur_v = False
                 logger.info(f"Processing LTChar: {child}")
                 try:
-                    layout = self.layout[ltpage.pageno]
+                    layout = self.layout[ltpage.pageid]
                     # ltpage.height 可能是 fig 里面的高度，这里统一用 layout.shape
                     h, w = layout.shape
                     logger.info(f"Layout shape: {h}x{w}")
@@ -353,7 +335,7 @@ class TranslateConverter(PDFConverterEx):
             elif isinstance(child, LTFigure):   # 图表
                 pass
             elif isinstance(child, LTLine):     # 线条
-                layout = self.layout[ltpage.pageno]
+                layout = self.layout[ltpage.pageid]
                 # ltpage.height 可能是 fig 里面的高度，这里统一用 layout.shape
                 h, w = layout.shape
                 # 读取当前线条在 layout 中的类别
@@ -389,7 +371,7 @@ class TranslateConverter(PDFConverterEx):
         logger.info(f"Starting paragraph translation with {len(sstk)} paragraphs")
         logger.debug("\n==========[SSTACK]==========\n")
 
-        @retry(wait=wait_fixed(1))
+        @retry(wait=wait_fixed(1), stop=lambda attempt, _: attempt >= 3)
         def worker(text: str) -> str:  # 多线程翻译
             if not text.strip() or re.match(r"^\{v\d+\}$", text):  # 空白和公式不翻译
                 return text
@@ -404,12 +386,10 @@ class TranslateConverter(PDFConverterEx):
                 raise e
 
         # 使用线程池进行并行翻译
-        try:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=self.thread) as executor:
-                news = list(executor.map(worker, sstk))
-        except Exception as e:
-            logger.error("Batch translation failed", exc_info=True)
-            raise TranslationError(f"Batch translation failed: {str(e)}", is_retryable=True)
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=self.thread
+        ) as executor:
+            news = list(executor.map(worker, sstk))
         
         ############################################################
         # C. 新文档排版
@@ -417,15 +397,9 @@ class TranslateConverter(PDFConverterEx):
             """编码字符串"""
             return "".join(["%04x" % ord(c) for c in cstk])
 
-        # 简化为只需要中英文的行高
-        LANG_LINEHEIGHT_MAP = {
-            "zh": 1.4,  # 中文行高
-            "en": 1.2,  # 英文行高
-        }
-
         # 使用固定的行高，因为只处理中文输出
         default_line_height = 1.4  # 固定使用中文行高
-        _x, _y = 0, 0
+
         ops_list = []
 
         def gen_op_txt(font, size, x, y, rtxt):
@@ -512,9 +486,7 @@ class TranslateConverter(PDFConverterEx):
                             "rtxt": raw_string(self.fontid[vch.font], vc),
                             "lidx": lidx
                         })
-                        if logger.isEnabledFor(logging.DEBUG):
-                            lstk.append(LTLine(0.1, (_x, _y), (x + vch.x0 - var[vid][0].x0, fix + y + vch.y0 - var[vid][0].y0)))
-                            _x, _y = x + vch.x0 - var[vid][0].x0, fix + y + vch.y0 - var[vid][0].y0
+                        
                     for l in varl[vid]:  # 排版公式线条
                         if l.linewidth < 5:  # hack 有的文档会用粗线条当图片背景
                             ops_vals.append({
@@ -538,9 +510,7 @@ class TranslateConverter(PDFConverterEx):
                 adv -= mod # 文字修饰符
                 fcur = fcur_
                 x += adv
-                if logger.isEnabledFor(logging.DEBUG):
-                    lstk.append(LTLine(0.1, (_x, _y), (x, y)))
-                    _x, _y = x, y
+
             # 处理结尾
             if cstk:
                 ops_vals.append({

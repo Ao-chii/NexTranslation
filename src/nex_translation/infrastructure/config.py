@@ -1,12 +1,11 @@
 from pathlib import Path
 from threading import RLock
 import json
-import logging
 from typing import Any, Dict, Optional
 import copy
+from ..utils.logger import get_logger
 
-# 创建Logger对象进行日志记录
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class ConfigManager:
     """

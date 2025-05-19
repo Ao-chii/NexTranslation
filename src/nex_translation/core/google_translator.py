@@ -40,8 +40,8 @@ class GoogleTranslator(BaseTranslator):
             response = self.session.get(
                 self.endpoint,
                 params={
-                    "tl": self.lang_out,
-                    "sl": self.lang_in,
+                    "tl": "zh-CN",
+                    "sl": "en",
                     "q": text,
                 },
                 headers=self.headers,

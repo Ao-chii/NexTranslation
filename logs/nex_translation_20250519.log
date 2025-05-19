@@ -1,0 +1,195 @@
+2025-05-19 16:06:24,536 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:06:24,691 [ERROR] nex_translation.main:59 - 启动失败: type object 'OnnxModel' has no attribute 'load_available'
+2025-05-19 16:06:38,714 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:06:46,933 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:06:47,169 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-19 16:06:47,171 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:06:47,171 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-19 16:06:47,172 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-19 16:06:47,838 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-19 16:06:47,839 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-19 16:06:53,672 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:08:47,522 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:08:47,761 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-19 16:08:47,763 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:08:47,763 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-19 16:08:47,764 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-19 16:08:48,400 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-19 16:08:48,400 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-19 16:08:53,677 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:09:04,150 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:09:18,058 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:09:18,564 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:09:55,312 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:09:55,802 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:10:25,194 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:10:36,496 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:10:48,750 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:10:53,813 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 16:10:54,144 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:11:18,828 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:11:19,076 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:11:19,077 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-19 16:11:19,078 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:11:19,078 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-19 16:11:19,078 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-19 16:11:19,701 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-19 16:11:19,702 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-19 16:11:25,381 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 16:11:25,757 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:12:27,725 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:28,199 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:31,525 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:34,052 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:48,965 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:57,965 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:58,208 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-19 16:12:58,210 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:12:58,210 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-19 16:12:58,211 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-19 16:12:58,892 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-19 16:12:58,892 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-19 16:13:03,786 [WARNING] nex_translation.src.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:14:38,184 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:14:46,286 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:14:46,775 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:05,947 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:06,428 [INFO] nex_translation.src.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:21,918 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:31,386 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:31,629 [INFO] nex_translation.main:34 - 正在初始化缓存数据库...
+2025-05-19 16:15:31,631 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:31,631 [INFO] nex_translation.main:36 - 缓存数据库初始化完成
+2025-05-19 16:15:31,631 [INFO] nex_translation.main:39 - 正在加载布局分析模型...
+2025-05-19 16:15:32,286 [INFO] nex_translation.main:47 - 布局分析模型已加载
+2025-05-19 16:15:32,286 [INFO] nex_translation.main:50 - 正在启动GUI界面于端口7860...
+2025-05-19 16:15:36,725 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 16:15:37,058 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:15:54,552 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:15:59,409 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 16:15:59,740 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:24:44,684 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:24:54,592 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:25:33,407 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:25:40,532 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:25:46,600 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 16:25:46,930 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:27:15,182 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:27:30,010 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:27:39,183 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:27:44,664 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:27:44,913 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:27:45,546 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:27:45,547 [ERROR] nex_translation:272 - 发生意外错误: 'ConfigManager' object has no attribute 'get_default_service'
+2025-05-19 16:31:03,825 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:31:18,083 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:31:18,349 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:31:18,985 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:31:18,985 [ERROR] nex_translation:272 - 发生意外错误: 'ConfigManager' object has no attribute 'get_enabled_services'
+2025-05-19 16:31:51,047 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:32:21,999 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:32:39,156 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:33:14,966 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:33:20,315 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:33:20,565 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:33:21,208 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:33:21,208 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 16:33:21,208 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 16:33:21,208 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 16:33:21,208 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 16:34:29,751 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:34:30,002 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:34:30,640 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:34:30,640 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 16:34:30,641 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 16:34:30,641 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 16:34:30,641 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 16:35:09,595 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:35:18,702 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:35:18,963 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:35:19,614 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:35:19,614 [ERROR] nex_translation:272 - 发生意外错误: 'ConfigManager' object has no attribute 'get_default_service'
+2025-05-19 16:35:46,325 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:35:48,717 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 16:35:48,969 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 16:35:49,619 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 16:35:49,619 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 16:35:49,619 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 16:35:49,619 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 16:35:49,619 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 16:35:55,729 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/GoNotoKurrent-Regular.ttf
+2025-05-19 16:35:55,817 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 16:36:00,815 [INFO] nex_translation:240 - 翻译成功完成。总耗时: 11.2秒
+2025-05-19 16:36:00,816 [INFO] nex_translation:244 - 文件 1/1:
+2025-05-19 16:36:00,816 [INFO] nex_translation:245 -   - 单语输出: output\translate.cli.text.with.figure-mono.pdf
+2025-05-19 16:36:00,816 [INFO] nex_translation:246 -   - 双语输出: output\translate.cli.text.with.figure-dual.pdf
+2025-05-19 16:36:00,817 [INFO] nex_translation:251 -   - 单语文件大小: 0.70 MB
+2025-05-19 16:36:00,817 [INFO] nex_translation:252 -   - 双语文件大小: 1.29 MB
+2025-05-19 17:23:37,417 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:23:42,692 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:23:42,954 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 17:23:43,645 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 17:23:43,646 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 17:23:43,646 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 17:23:43,647 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 17:23:43,647 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 17:23:43,649 [ERROR] nex_translation:272 - 发生意外错误: type object 'ConfigManager' has no attribute 'get'
+2025-05-19 17:29:52,569 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:30:01,416 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:30:01,665 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 17:30:02,352 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 17:30:02,352 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 17:30:02,352 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 17:30:02,352 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 17:30:02,352 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 17:30:02,352 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:30:02,440 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 17:30:03,654 [INFO] nex_translation:240 - 翻译成功完成。总耗时: 1.3秒
+2025-05-19 17:30:03,654 [INFO] nex_translation:244 - 文件 1/1:
+2025-05-19 17:30:03,654 [INFO] nex_translation:245 -   - 单语输出: output\translate.cli.text.with.figure-mono.pdf
+2025-05-19 17:30:03,654 [INFO] nex_translation:246 -   - 双语输出: output\translate.cli.text.with.figure-dual.pdf
+2025-05-19 17:30:03,654 [INFO] nex_translation:251 -   - 单语文件大小: 0.68 MB
+2025-05-19 17:30:03,654 [INFO] nex_translation:252 -   - 双语文件大小: 1.27 MB
+2025-05-19 17:31:26,807 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:32:19,503 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:32:25,932 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:32:25,940 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 17:32:26,549 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 17:32:26,549 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 17:32:26,549 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 17:32:26,549 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 17:32:26,549 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 17:32:26,554 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:32:26,603 [ERROR] nex_translation.nex_translation.core.pdf_processor:171 - PDF translation failed: 'dict' object has no attribute 'lower'
+2025-05-19 17:32:26,603 [ERROR] nex_translation:272 - 发生意外错误: 'dict' object has no attribute 'lower'
+2025-05-19 17:34:57,948 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:35:00,248 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:35:00,252 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-19 17:35:00,861 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-19 17:35:00,861 [INFO] nex_translation:171 - 使用的翻译服务: google
+2025-05-19 17:35:00,861 [INFO] nex_translation:178 - 翻译所有页面。
+2025-05-19 17:35:00,861 [INFO] nex_translation:197 - 输出目录: C:\Users\yuanlin cao\NexTranslation\output
+2025-05-19 17:35:00,861 [INFO] nex_translation:200 - 正在处理 1 个文件...
+2025-05-19 17:35:00,866 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:35:00,929 [ERROR] nex_translation.nex_translation.core.pdf_processor:171 - PDF translation failed: GoogleTranslator.__init__() missing 2 required positional arguments: 'lang_in' and 'lang_out'
+2025-05-19 17:35:00,929 [ERROR] nex_translation:272 - 发生意外错误: GoogleTranslator.__init__() missing 2 required positional arguments: 'lang_in' and 'lang_out'
+2025-05-19 17:35:34,522 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:35:57,098 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:36:07,082 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:36:12,964 [INFO] nex_translation.nex_translation.core.pdf_processor:424 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:36:40,810 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:37:20,840 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:37:29,479 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:37:35,099 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:37:35,426 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 17:38:43,386 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:38:58,356 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:39:04,240 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 17:39:04,568 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-19 17:58:38,170 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 17:58:57,470 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 18:34:14,311 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 18:34:30,684 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 18:34:45,877 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-19 18:34:52,386 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-19 18:34:52,797 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.

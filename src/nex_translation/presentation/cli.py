@@ -11,11 +11,11 @@ import time
 
 # 从项目中导入
 from nex_translation import __version__, logger # 使用 __init__ 中的 logger
-from nex_translation.core.pdf_processor import translate
-from nex_translation.core.doclayout import DocLayoutModel
-from nex_translation.infrastructure.config import ConfigManager
-from nex_translation.utils.logger import set_log_level, enable_debug
-from nex_translation.utils.exceptions import NexTranslationError
+from ..core.pdf_processor import translate
+from ..core.doclayout import DocLayoutModel
+from ..infrastructure.config import ConfigManager
+from ..utils.logger import set_log_level, enable_debug
+from ..utils.exceptions import NexTranslationError
 
 def parse_page_ranges(page_str: Optional[str]) -> Optional[List[int]]:
     """将 '1,3,5-7' 这样的字符串解析为页面索引列表 [0, 2, 4, 5, 6]。"""

@@ -13,18 +13,17 @@ from gradio_pdf import PDF
 from string import Template
 import logging
 
-from src.nex_translation.core import __version__
-from src.nex_translation.core.pdf_processor import translate
-from src.nex_translation.core.doclayout import ModelInstance
-from src.nex_translation.infrastructure.config import ConfigManager
-from src.nex_translation.core.translator import BaseTranslator
-from src.nex_translation.core.google_translator import GoogleTranslator
-
-
+from nex_translation.core import __version__
+from nex_translation.core.pdf_processor import translate
+from nex_translation.core.doclayout import ModelInstance
+from nex_translation.infrastructure.config import ConfigManager
+from nex_translation.core.translator import BaseTranslator
+from nex_translation.core.google_translator import GoogleTranslator
+from nex_translation.core.doclayout import OnnxModel
+model = OnnxModel.load_available()
+ModelInstance.value = model
 logger = logging.getLogger(__name__)
 from babeldoc.docvision.doclayout import OnnxModel
-
-BABELDOC_MODEL = OnnxModel.load_available()
 # The following variables associate strings with translators
 service_map: dict[str, BaseTranslator] = {
     "Google": GoogleTranslator,
@@ -620,5 +619,5 @@ def setup_gui(server_port=7860) -> None:
 
 # For auto-reloading while developing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig()
     setup_gui()

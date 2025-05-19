@@ -246,3 +246,5 @@ class ConfigManager:
         instance = cls.get_instance()
         with instance._lock:
             os.remove(instance._config_path)
+
+    

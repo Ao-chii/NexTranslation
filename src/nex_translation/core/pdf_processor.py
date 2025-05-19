@@ -22,11 +22,11 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
 from pymupdf import Document, Font
 
-from src.nex_translation.core.converter import TranslateConverter
-from src.nex_translation.core.doclayout import OnnxModel
-from src.nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
+from nex_translation.core.converter import TranslateConverter
+from nex_translation.core.doclayout import OnnxModel
+from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
 
-from src.nex_translation.infrastructure.config import ConfigManager
+from nex_translation.infrastructure.config import ConfigManager
 from babeldoc.assets.assets import get_font_and_metadata
 
 NOTO_NAME = "noto"

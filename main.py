@@ -26,9 +26,9 @@ def main():
         logger.info("正在启动NexTranslate GUI界面...")
 
         # 导入必要的模块
-        from src.nex_translation.presentation.gui import setup_gui
-        from src.nex_translation.core.doclayout import OnnxModel, ModelInstance
-        from src.nex_translation.infrastructure.cache import init_db
+        from nex_translation.presentation.gui import setup_gui
+        from nex_translation.core.doclayout import OnnxModel, ModelInstance
+        from nex_translation.infrastructure.cache import init_db
 
         # 确保缓存数据库已初始化
         logger.info("正在初始化缓存数据库...")

@@ -5,8 +5,8 @@ from copy import copy
 from string import Template
 from typing import cast
 
-from src.nex_translation.infrastructure.cache import TranslationCache
-from src.nex_translation.infrastructure.config import ConfigManager
+from nex_translation.infrastructure.cache import TranslationCache
+from nex_translation.infrastructure.config import ConfigManager
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,5 @@
-from src.nex_translation.core.translator import BaseTranslator
-from src.nex_translation.utils.exceptions import TranslationError
+from nex_translation.core.translator import BaseTranslator
+from nex_translation.utils.exceptions import TranslationError
 import html
 import logging
 import re

@@ -1,9 +1,4 @@
-# pdf文件从解析到翻译到导出的高层指挥，分别实例化三个类：
-# DoclayoutModel(进行布局分析), TranslateConverter(进行翻译), PDFPageInterpreterEx(内容解析)
-# 以利用这三个类完成工作
-
-# 注意此python文件最终只对外暴露两个函数： 
-# 直接处理pdf二进制流的translate_stream()以及直接处理pdf文件的translate()
+"""Functions that can be used for the most common use-cases for src.six"""
 
 import asyncio
 import io
@@ -24,39 +19,29 @@ from pdfminer.pdfexceptions import PDFValueError
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
-from pymupdf import Document
-from babeldoc.assets.assets import get_font_and_metadata
+from pymupdf import Document, Font
 
 from nex_translation.core.converter import TranslateConverter
 from nex_translation.core.doclayout import OnnxModel
 from nex_translation.core.pdfinterpreter import PDFPageInterpreterEx
+from nex_translation.utils.logger import get_logger
 from nex_translation.infrastructure.config import ConfigManager
-from ..utils.exceptions import (
-    PDFError,
-    PDFFormatError,
-    ContentExtractionError,
-    LayoutAnalysisError
-)
-from ..utils.logger import get_logger
-
+from babeldoc.assets.assets import get_font_and_metadata
 
 logger = get_logger(__name__)
+NOTO_NAME = "noto"
 
-
-# 检查文件是否存在
 def check_files(files: List[str]) -> List[str]:
     files = [
         f for f in files if not f.startswith("http://")
-    ]
+    ]  # exclude online files, http
     files = [
         f for f in files if not f.startswith("https://")
-    ]
+    ]  # exclude online files, https
     missing_files = [file for file in files if not os.path.exists(file)]
     return missing_files
 
-# 对pdf文件二进制流进行修补处理
-# 逐页分析布局，生成修补的文件流
-# 输入：原始pdf内容流 输出：修补后的对象字典
+
 def translate_patch(
     inf: BinaryIO,
     pages: Optional[list[int]] = None,
@@ -65,6 +50,8 @@ def translate_patch(
     thread: int = 0,
     doc_zh: Document = None,
     service: str = "",
+    noto_name: str = "",
+    noto: Font = None,
     callback: object = None,
     cancellation_event: asyncio.Event = None,
     model: OnnxModel = None,
@@ -73,110 +60,82 @@ def translate_patch(
     ignore_cache: bool = False,
     **kwarg: Any,
 ) -> None:
-    try:
-        rsrcmgr = PDFResourceManager()
-        layout = {}
-        device = TranslateConverter(
-            rsrcmgr,
-            vfont,
-            vchar,
-            thread,
-            layout,
-            service,
-            envs,
-            prompt,
-            ignore_cache,
-        )
+    rsrcmgr = PDFResourceManager()
+    layout = {}
+    device = TranslateConverter(
+        rsrcmgr,
+        vfont,
+        vchar,
+        thread,
+        layout,
+        service,
+        noto_name,
+        noto,
+        envs,
+        prompt,
+        ignore_cache,
+    )
 
-        if device is None:
-            raise PDFError("Failed to initialize TranslateConverter")
+    assert device is not None
+    obj_patch = {}
+    interpreter = PDFPageInterpreterEx(rsrcmgr, device, obj_patch)
+    if pages:
+        total_pages = len(pages)
+    else:
+        total_pages = doc_zh.page_count
 
-        obj_patch = {}
-        interpreter = PDFPageInterpreterEx(rsrcmgr, device, obj_patch)
+    parser = PDFParser(inf)
+    doc = PDFDocument(parser)
+    with tqdm.tqdm(total=total_pages) as progress:
+        for pageno, page in enumerate(PDFPage.create_pages(doc)):
+            if cancellation_event and cancellation_event.is_set():
+                raise CancelledError("task cancelled")
+            if pages and (pageno not in pages):
+                continue
+            progress.update()
+            if callback:
+                callback(progress)
+            page.pageno = pageno
+            pix = doc_zh[page.pageno].get_pixmap()
+            image = np.fromstring(pix.samples, np.uint8).reshape(
+                pix.height, pix.width, 3
+            )[:, :, ::-1]
+            page_layout = model.predict(image, imgsz=int(pix.height / 32) * 32)[0]
+            # kdtree 是不可能 kdtree 的，不如直接渲染成图片，用空间换时间
+            box = np.ones((pix.height, pix.width))
+            h, w = box.shape
+            vcls = ["abandon", "figure", "table", "isolate_formula", "formula_caption"]
+            for i, d in enumerate(page_layout.boxes):
+                if page_layout.names[int(d.cls)] not in vcls:
+                    x0, y0, x1, y1 = d.xyxy.squeeze()
+                    x0, y0, x1, y1 = (
+                        np.clip(int(x0 - 1), 0, w - 1),
+                        np.clip(int(h - y1 - 1), 0, h - 1),
+                        np.clip(int(x1 + 1), 0, w - 1),
+                        np.clip(int(h - y0 + 1), 0, h - 1),
+                    )
+                    box[y0:y1, x0:x1] = i + 2
+            for i, d in enumerate(page_layout.boxes):
+                if page_layout.names[int(d.cls)] in vcls:
+                    x0, y0, x1, y1 = d.xyxy.squeeze()
+                    x0, y0, x1, y1 = (
+                        np.clip(int(x0 - 1), 0, w - 1),
+                        np.clip(int(h - y1 - 1), 0, h - 1),
+                        np.clip(int(x1 + 1), 0, w - 1),
+                        np.clip(int(h - y0 + 1), 0, h - 1),
+                    )
+                    box[y0:y1, x0:x1] = 0
+            layout[page.pageno] = box
+            # 新建一个 xref 存放新指令流
+            page.page_xref = doc_zh.get_new_xref()  # hack 插入页面的新 xref
+            doc_zh.update_object(page.page_xref, "<<>>")
+            doc_zh.update_stream(page.page_xref, b"")
+            doc_zh[page.pageno].set_contents(page.page_xref)
+            interpreter.process_page(page)
 
-        if pages:
-            total_pages = len(pages)
-        else:
-            total_pages = doc_zh.page_count
+    device.close()
+    return obj_patch
 
-        parser = PDFParser(inf)
-        try:
-            doc = PDFDocument(parser)
-        except PDFValueError as e:
-            raise PDFFormatError(str(e))
-
-        logger.info(f"Starting PDF translation with {total_pages} pages")
-
-        with tqdm.tqdm(total=total_pages) as progress:
-            for pageno, page in enumerate(PDFPage.create_pages(doc)):
-                if cancellation_event and cancellation_event.is_set():
-                    logger.info("Translation cancelled by user")
-                    raise CancelledError("task cancelled")
-
-                if pages and (pageno not in pages):
-                    continue                
-                logger.debug(f"Processing page {pageno}")
-                progress.update()
-                if callback:
-                    callback(progress)
-                    
-                try:
-                    page.pageno = pageno
-
-                    # 使用当前处理的page
-                    pix = doc_zh[pageno].get_pixmap()  # 使用pageno
-                    image = np.fromstring(pix.samples, np.uint8).reshape(
-                        pix.height, pix.width, 3
-                    )[:, :, ::-1]
-
-                    page_layout = model.predict(image, imgsz=int(pix.height / 32) * 32)[0]
-                    if not page_layout:
-                        raise LayoutAnalysisError(pageno, "Failed to predict page layout")
-
-                    # Layout processing
-                    box = np.ones((pix.height, pix.width))
-                    h, w = box.shape
-                    vcls = ["abandon", "figure", "table", "isolate_formula", "formula_caption"]
-
-                    for i, d in enumerate(page_layout.boxes):
-                        if page_layout.names[int(d.cls)] not in vcls:  # 非特殊区域
-                            x0, y0, x1, y1 = d.xyxy.squeeze()
-                            x0, y0, x1, y1 = (
-                                np.clip(int(x0 - 1), 0, w - 1),
-                                np.clip(int(h - y1 - 1), 0, h - 1),
-                                np.clip(int(x1 + 1), 0, w - 1),
-                                np.clip(int(h - y0 + 1), 0, h - 1),
-                            )
-                            box[y0:y1, x0:x1] = i + 2
-                    for i, d in enumerate(page_layout.boxes):
-                        if page_layout.names[int(d.cls)] in vcls: # 特殊区域
-                            x0, y0, x1, y1 = d.xyxy.squeeze()
-                            x0, y0, x1, y1 = (
-                                np.clip(int(x0 - 1), 0, w - 1),
-                                np.clip(int(h - y1 - 1), 0, h - 1),
-                                np.clip(int(x1 + 1), 0, w - 1),
-                                np.clip(int(h - y0 + 1), 0, h - 1), 
-                              )
-                            box[y0:y1, x0:x1] = 0
-                    layout[page.pageno] = box
-                    # 新建一个 xref 存放新指令流
-                    page.page_xref = doc_zh.get_new_xref()  # hack 插入页面的新 xref
-                    doc_zh.update_object(page.page_xref, "<<>>")
-                    doc_zh.update_stream(page.page_xref, b"")
-                    doc_zh[page.pageno].set_contents(page.page_xref)
-                    interpreter.process_page(page)
-
-                except Exception as e:
-                    logger.error(f"Error processing page {pageno}: {str(e)}")
-                    raise ContentExtractionError(pageno, "text")
-
-        logger.info("PDF translation completed successfully")
-        device.close()
-        return obj_patch
-
-    except Exception as e:
-        logger.error(f"PDF translation failed: {str(e)}")
-        raise
 
 def translate_stream(
     stream: bytes,
@@ -185,6 +144,8 @@ def translate_stream(
     thread: int = 0,
     vfont: str = "",
     vchar: str = "",
+    lang_in: str = "en",
+    lang_out: str = "zh-CN",
     callback: object = None,
     cancellation_event: asyncio.Event = None,
     model: OnnxModel = None,
@@ -194,20 +155,19 @@ def translate_stream(
     ignore_cache: bool = False,
     **kwarg: Any,
 ):
-    # 只保留基本字体配置
-    font_list = [("tiro", None)]  # 拉丁字体
-    
-    # 加载思源字体
-    cjk_font_path = download_remote_fonts()
-    font_list.append(("SourceHanSerifCN", cjk_font_path))
+    font_list = [("tiro", None)]
+
+    font_path = download_remote_fonts()
+    noto_name = NOTO_NAME
+    noto = Font(noto_name, font_path)
+    font_list.append((noto_name, font_path))
 
     doc_en = Document(stream=stream)
     stream = io.BytesIO()
     doc_en.save(stream)
     doc_zh = Document(stream=stream)
     page_count = doc_zh.page_count
-
-    # 字体注册
+    # font_list = [("GoNotoKurrent-Regular.ttf", font_path), ("tiro", None)]
     font_id = {}
     for page in doc_zh:
         for font in font_list:
@@ -237,24 +197,12 @@ def translate_stream(
             except Exception:
                 pass
 
-    # 处理翻译
-    if not envs:
-        envs = {}
-    # 从 ConfigManager 获取翻译器配置
-    translator_envs = ConfigManager.get_instance().get_translator_config(service)
-    if translator_envs:
-        envs.update(translator_envs)
-
     fp = io.BytesIO()
 
     doc_zh.save(fp)
     obj_patch: dict = translate_patch(fp, **locals())
 
     for obj_id, ops_new in obj_patch.items():
-        # ops_old=doc_en.xref_stream(obj_id)
-        # print(obj_id)
-        # print(ops_old)
-        # print(ops_new.encode())
         doc_zh.update_stream(obj_id, ops_new.encode())
 
     doc_en.insert_file(doc_zh)
@@ -288,7 +236,7 @@ def convert_to_pdfa(input_path, output_path):
         "pdfa_conformance": "B",
         "title": pdf.docinfo.get("/Title", ""),
         "author": pdf.docinfo.get("/Author", ""),
-        "creator": "NexTranslation",
+        "creator": "PDF Math Translate",
     }
 
     with pdf.open_metadata() as meta:
@@ -322,6 +270,8 @@ def translate(
     files: list[str],
     output: str = "",
     pages: Optional[list[int]] = None,
+    lang_in: str = "en",
+    lang_out: str = "zh-CN",
     service: str = "",
     thread: int = 0,
     vfont: str = "",
@@ -421,13 +371,28 @@ def download_remote_fonts() -> str:
     font_path = ConfigManager.get_instance()._config_data.get("CJK_FONT_PATH", Path("/app", font_name).as_posix())
     
     if not Path(font_path).exists():
-        font_path, _ = get_font_and_metadata(font_name)
-        font_path = font_path.as_posix()
-        # 更新配置
-        with ConfigManager.get_instance()._lock:
-            ConfigManager.get_instance()._config_data["CJK_FONT_PATH"] = font_path
-            ConfigManager.get_instance()._save_config()
+        try:
+            # 获取字体路径
+            font_path_obj, _ = get_font_and_metadata(font_name)
+            
+            # 确保font_path是字符串
+            if hasattr(font_path_obj, "as_posix"):
+                font_path = font_path_obj.as_posix()
+            elif isinstance(font_path_obj, str):
+                font_path = font_path_obj
+            else:
+                font_path = str(font_path_obj)
+            
+            # 更新配置
+            with ConfigManager.get_instance()._lock:
+                ConfigManager.get_instance()._config_data["CJK_FONT_PATH"] = font_path
+                ConfigManager.get_instance()._save_config()
+        except Exception as e:
+            logger.error(f"获取字体失败: {e}")
+            # 使用默认路径作为后备
+            font_path = str(Path("/app", font_name))
 
-    logger.info(f"use font: {font_path}")
+    logger.info(f"使用字体: {font_path}")
 
-    return font_path
+    # 确保返回的是字符串
+    return str(font_path)

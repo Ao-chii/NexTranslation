@@ -1,1 +1,0 @@
-2025-05-19 15:11:16,134 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.

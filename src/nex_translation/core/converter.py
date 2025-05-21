@@ -23,8 +23,7 @@ from nex_translation.core.google_translator import GoogleTranslator
 from nex_translation.utils.logger import get_logger
 
 
-log = get_logger(__name__)
-
+logger = get_logger(__name__)
 
 class PDFConverterEx(PDFConverter):
     def __init__(
@@ -325,11 +324,11 @@ class TranslateConverter(PDFConverterEx):
             varl.append(vlstk)
             varf.append(vfix)
         # 只在DEBUG级别打印公式信息
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug("\n==========[VSTACK]==========\n")
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("\n==========[VSTACK]==========\n")
             for id, v in enumerate(var):  # 计算公式宽度
                 l = max([vch.x1 for vch in v]) - v[0].x0
-                log.debug(f'< {l:.1f} {v[0].x0:.1f} {v[0].y0:.1f} {v[0].cid} {v[0].fontname} {len(varl[id])} > v{id} = {"".join([ch.get_text() for ch in v])}')
+                logger.debug(f'< {l:.1f} {v[0].x0:.1f} {v[0].y0:.1f} {v[0].cid} {v[0].fontname} {len(varl[id])} > v{id} = {"".join([ch.get_text() for ch in v])}')
                 vlen.append(l)
         else:
             # 非DEBUG模式下只计算宽度，不打印日志
@@ -339,8 +338,8 @@ class TranslateConverter(PDFConverterEx):
 
         ############################################################
         # B. 段落翻译
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug("\n==========[SSTACK]==========\n")
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("\n==========[SSTACK]==========\n")
 
         @retry(wait=wait_fixed(1), stop=lambda attempt, _: attempt >= 3)  # 最多重试3次
         def worker(s: str):  # 多线程翻译
@@ -350,11 +349,11 @@ class TranslateConverter(PDFConverterEx):
                 new = self.translator.translate(s)
                 return new
             except BaseException as e:
-                if log.isEnabledFor(logging.DEBUG):
-                    log.exception(e)
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.exception(e)
                 else:
-                    log.exception(e, exc_info=False)
-                log.warning(f"Translation failed after retries, returning original text: {s[:50]}...")
+                    logger.exception(e, exc_info=False)
+                logger.warning(f"Translation failed after retries, returning original text: {s[:50]}...")
                 return s  # 重试失败后返回原文
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=self.thread
@@ -401,8 +400,8 @@ class TranslateConverter(PDFConverterEx):
             fcur_ = fcur
             ptr = 0
             # 只在DEBUG级别打印段落信息
-            if log.isEnabledFor(logging.DEBUG):
-                log.debug(f"< {y} {x} {x0} {x1} {size} {brk} > {sstk[id]} | {new}")
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f"< {y} {x} {x0} {x1} {size} {brk} > {sstk[id]} | {new}")
 
             ops_vals: list[dict] = []
 

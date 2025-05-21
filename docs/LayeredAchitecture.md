@@ -8,20 +8,19 @@
 - 提供GUI和CLI两种交互方式
 - 处理用户输入和结果展示
 
-### 2. 应用层（Application Layer）
-- 协调各个核心功能模块
-- 处理业务流程和任务调度
-- 提供API接口支持
+### 2. 工具层（Util Layer）
+- 日志记录
+- 异常处理
 
-### 3. 领域层（Domain Layer）
+
+### 3. 核心层（Core Layer）
 - 实现核心业务逻辑
 - 包含PDF处理、翻译、文档生成等核心功能
 - 定义领域模型和业务规则
 
 ### 4. 基础设施层（Infrastructure Layer）
-- 提供技术支持和外部服务集成
-- 处理数据持久化
-- 管理第三方服务调用
+- 配置文件管理
+- 缓存管理
 
 
 ## 二、系统模块划分
@@ -43,14 +42,15 @@
 - 进度展示
 - 日志输出
 
-### 2. 应用层设计
+### 2. 基础层设计
 
-#### 2.1 任务管理器（TaskManager）
+#### 2.1 缓存管理器
 - 功能：
-  * 任务队列管理
-  * 并发控制
-  * 任务状态追踪
-  * 异常处理
+    * 翻译结果缓存
+    * 缓存策略管理
+    * 缓存数据结构设计
+    * 缓存持久化
+    * 缓存清理策略
 
 #### 2.2 配置管理器（ConfigManager）
 - 功能：
@@ -59,7 +59,7 @@
   * 系统参数配置
   * 持久化存储
 
-### 3. 领域层设计
+### 3. 核心层设计
 
 #### 3.1 PDF处理模块（PDFProcessor）
 - 核心功能：
@@ -68,7 +68,7 @@
   * 布局分析（LayoutAnalyzer）
   * 特殊元素识别（ElementDetector）
 
-#### 3.2 翻译模块（TranslationService）
+#### 3.2 翻译模块（Translator）
 - 核心组件：
   * 翻译引擎抽象（TranslationEngine）
   * 服务适配器（ServiceAdapter）
@@ -82,25 +82,10 @@
   * 格式转换（FormatConverter）
   * 样式应用（StyleApplier）
 
-### 4. 基础设施层设计
-
-#### 4.1 存储模块（StorageService）
-- 组件：
-  * 文件存储（FileStorage）
-  * 缓存存储（CacheStorage）
-  * 配置存储（ConfigStorage）
-
-#### 4.2 外部服务集成（ExternalServices）
-- 服务类型：
-  * 翻译API集成
-  * OCR服务集成
-  * 云存储集成
-
-#### 4.3 通用工具（CommonUtils）
+### 4. 工具层设计
 - 工具类：
-  * 日志管理（LogManager）
-  * 错误处理（ErrorHandler）
-  * 性能监控（PerformanceMonitor）
+  * 日志管理（LoggerManager）
+  * 错误处理（ExceptionHandler）
 
 ## 三、关键流程设计
 

@@ -1,0 +1,9 @@
+2025-05-21 15:29:43,633 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-21 15:30:12,879 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-21 15:37:15,088 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-21 15:37:54,188 [INFO] nex_translation.core.pdf_processor:423 - use font: C:/Users/yuanlin cao/.cache/babeldoc/fonts/SourceHanSerifCN-Regular.ttf
+2025-05-21 15:37:54,660 [WARNING] nex_translation.nex_translation.infrastructure.cache:56 - TranslationCache initialized without a specific db_instance. Operations requiring DB will use db_proxy.
+2025-05-21 15:40:53,262 [INFO] nex_translation.nex_translation.infrastructure.cache:195 - 生产数据库已初始化: C:\Users\yuanlin cao\.cache\nex_translation\cache.v1.db
+2025-05-21 15:40:53,521 [INFO] nex_translation:154 - 启动 NexTranslation v0.2.0
+2025-05-21 15:40:54,150 [INFO] nex_translation:163 - 布局分析模型已加载。
+2025-05-21 15:40:54,151 [ERROR] nex_translation:272 - 发生意外错误: 'ConfigManager' object has no attribute 'get_default_service'

@@ -7,7 +7,6 @@ nex_translation/
 │   ├── nex_translation/
 │   │   ├── __init__.py
 │   │   ├── core/               # 核心业务逻辑层
-│   │   │   ├── __init__.py
 │   │   │   ├── pdf_processor.py     # PDF解析与处理
 │   │   │   ├── converter.py
 │   │   │   ├── doclayout.py
@@ -15,23 +14,18 @@ nex_translation/
 │   │   │   ├── translator.py        # 翻译服务集成
 │   │   │   └── google_translator.py   # Google翻译实现
 │   │   ├── infrastructure/     # 基础设施层
-│   │   │   ├── __init__.py
 │   │   │   ├── cache.py            # 本地缓存
 │   │   │   └── config.py           # 配置管理
 │   │   ├── presentation/      # 表现层
-│   │   │   ├── __init__.py
 │   │   │   ├── gui.py             # Gradio界面
 │   │   │   └── cli.py             # 命令行接口
 │   │   └── utils/             # 工具类
-│   │       ├── __init__.py
 │   │       ├── logger.py          # 日志工具
 │   │       └── exceptions.py      # 异常定义
 ├── tests/                     # 测试目录
 │   ├── __init__.py
 │   ├── test_pdf_processor.py
 │   └── test_translator.py
-├── examples/                  # 示例文件
-│   └── sample.pdf
 ├── README.md
 ├── pyproject.toml            # 项目配置
 └── setup.py                  # 安装脚本

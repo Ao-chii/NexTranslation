@@ -2,11 +2,16 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 from string import Template
 import logging
-from ..infrastructure.cache import TranslationCache
-from ..infrastructure.config import ConfigManager
 from copy import copy
 import os
+
+from ..infrastructure.cache import TranslationCache
+from ..infrastructure.config import ConfigManager
 from ..utils.logger import get_logger
+
+from tenacity import retry, retry_if_exception_type
+from tenacity import stop_after_attempt
+from tenacity import wait_exponential
 
 logger = get_logger(__name__)
 
@@ -33,8 +38,6 @@ class BaseTranslator(ABC):
             ignore_cache: 是否忽略缓存
         """
         self.model = model
-        self.lang_in = "en"  # 固定为英语
-        self.lang_out = "zh"  # 固定为中文
         self.ignore_cache = ignore_cache
         self.set_envs(envs)
         self.cache = TranslationCache()

@@ -1,4 +1,4 @@
-nex_translation/
+NexTranslation/
 ├── docs/
 │   ├── Requirements.md          # 需求文档
 │   ├── LayeredArchitecture.md   # 架构设计
@@ -6,8 +6,8 @@ nex_translation/
 ├── src/
 │   ├── nex_translation/
 │   │   ├── __init__.py
-│   │   ├── core/               # 核心业务逻辑层
-│   │   │   ├── pdf_processor.py     # PDF解析与处理
+│   │   ├── core/                # 核心业务逻辑层
+│   │   │   ├── pdf_processor.py # PDF解析与处理
 │   │   │   ├── converter.py
 │   │   │   ├── doclayout.py
 │   │   │   ├── pdfinterpreter.py
@@ -23,9 +23,10 @@ nex_translation/
 │   │       ├── logger.py          # 日志工具
 │   │       └── exceptions.py      # 异常定义
 ├── tests/                     # 测试目录
-│   ├── __init__.py
-│   ├── test_pdf_processor.py
-│   └── test_translator.py
+│   ├── test_config.py
+│   ├── test_translator.py
+│   └── test_cache.py
 ├── README.md
+├── LICENSE
 ├── pyproject.toml            # 项目配置
-└── setup.py                  # 安装脚本
+└── config.json               # 默认配置文件

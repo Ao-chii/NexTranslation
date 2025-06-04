@@ -8,6 +8,7 @@ from string import Template
 from typing import List, Optional
 import time
 import logging
+from tqdm import tqdm
 
 # 从项目中导入
 from nex_translation import __version__, logger # 使用 __init__ 中的 logger
@@ -199,9 +200,6 @@ def main():
         # --- 执行翻译 ---
         logger.info(f"正在处理 {len(args.files)} 个文件...")
         start_time = time.time()
-        
-        # 创建进度回调函数
-        from tqdm import tqdm
 
         def progress_callback(t: tqdm):
             """翻译进度回调函数"""

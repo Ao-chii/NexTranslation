@@ -1,4 +1,3 @@
-import logging
 from typing import Any, Dict, Optional, Sequence, Tuple, cast
 import numpy as np
 
@@ -37,9 +36,6 @@ from pdfminer.utils import (
     mult_matrix,
     apply_matrix_pt,
 )
-
-log = logging.getLogger(__name__)
-
 
 def safe_float(o: Any) -> Optional[float]:
     try:

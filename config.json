@@ -20,6 +20,13 @@
     ],
     "PDF_LANG_FROM": "English",
     "PDF_LANG_TO": "Simplified Chinese",
-    "ENABLED_SERVICES": ["openai", "deepl","google"],
-    "HIDDEN_GRADIO_DETAILS": true
+    "ENABLED_SERVICES": ["google", "deepl", "openai"],
+    "DEFAULT_SERVICE": "google",
+    "HIDDEN_GRADIO_DETAILS": true,
+    "CJK_FONT_PATH": "",
+    "CACHE_DIR": "${HOME}/.cache/nex_translation",
+    "MODEL_REPOSITORY": "${HOME}/.cache/babeldoc/models",
+    "FONT_REPOSITORY": "${HOME}/.cache/babeldoc/fonts",
+    "DEFAULT_THREAD_COUNT": 4,
+    "LOG_LEVEL": "INFO"
 }

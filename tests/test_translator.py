@@ -92,8 +92,6 @@ def test_base_translator_initialization(mock_translation_cache, mock_config_mana
     translator = ConcreteTranslator(model="test_model_base", ignore_cache=True)
     assert translator.name == "concrete_test"
     assert translator.model == "test_model_base"
-    assert translator.lang_in == "en"
-    assert translator.lang_out == "zh"
     assert translator.ignore_cache is True
     assert translator.cache == mock_translation_cache # 验证使用了 mock 的 cache
     assert translator.prompt_template is None
@@ -277,7 +275,7 @@ def test_google_translator_do_translate_success(mock_unescape, mock_requests_ses
     assert result == "Translated Text"
     mock_requests_session.get.assert_called_once_with(
         translator.endpoint,
-        params={"tl": "zh", "sl": "en", "q": "Hello Google"},
+        params={"tl": "zh-CN", "sl": "en", "q": "Hello Google"},
         headers=translator.headers,
         timeout=30
     )

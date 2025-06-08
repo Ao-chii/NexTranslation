@@ -1,5 +1,4 @@
 import abc
-import os.path
 
 import cv2
 import numpy as np
@@ -8,10 +7,6 @@ from babeldoc.assets.assets import get_doclayout_onnx_model_path
 
 import onnx
 import onnxruntime
-
-from huggingface_hub import hf_hub_download
-
-
 
 class DocLayoutModel(abc.ABC):
     @staticmethod

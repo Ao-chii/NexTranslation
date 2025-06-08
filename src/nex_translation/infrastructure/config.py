@@ -90,13 +90,32 @@ class ConfigManager:
                         }
                     ],
                     "ENABLED_SERVICES": ["google", "openai", "deepl"],  # 默认启用的翻译服务
-                    "DEFAULT_SERVICE": "google"  # 设置默认翻译服务为谷歌翻译
+                    "DEFAULT_SERVICE": "google",  # 设置默认翻译服务为谷歌翻译
+                    "HIDDEN_GRADIO_DETAILS": False, # 是否隐藏Gradio中的API Key等细节
+                    "DEMO_MODE": False # 是否为演示模式
                 }
                 self._save_config()
             else:
                 raise ValueError(f"Config file {self._config_path} not found!")
         else: # 如果文件已存在
             self._load_config() # <--- 添加这一行来加载现有配置
+
+    def get(self, key: str, default: Any = None) -> Any:
+        """
+        获取顶级配置项。
+        """
+        return self._config_data.get(key, default)
+        
+    def get_env_by_translatername(self, translator_cls, env_key: str, default: Any = None) -> Any:
+        """
+        根据翻译器类和环境键获取环境变量值。
+        """
+        translator_name = getattr(translator_cls, 'name', '').lower()
+        if not translator_name:
+            return default
+        
+        translator_config = self.get_translator_config(translator_name)
+        return translator_config.get(env_key, default)
 
     def get_translator_config(self, translator_name: str) -> Dict[str, Any]:
         """

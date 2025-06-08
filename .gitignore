@@ -3,3 +3,6 @@ output/
 logs
 .idea/
 .vscode/
+__pycache__/
+.specStory/
+.gradio/

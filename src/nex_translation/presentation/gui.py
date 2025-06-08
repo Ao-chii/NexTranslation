@@ -5,6 +5,7 @@ import shutil
 import uuid
 from pathlib import Path
 import typing as T
+import zipfile
 
 import gradio as gr
 import requests
@@ -42,12 +43,12 @@ service_map: dict[str, BaseTranslator] = {
 LANG_FROM = "en"
 LANG_TO = "zh"
 
-# The following variable associate strings with page ranges
+# 页面范围选项
 page_map = {
-    "All": None,
-    "First": [0],
-    "First 5 pages": list(range(0, 5)),
-    "Others": None,
+    "全部页面": None,
+    "仅第一页": [0],
+    "前5页": list(range(5)),
+    "自定义": None,
 }
 
 # --- GUI 配置 ---
@@ -80,7 +81,7 @@ def stop_translate_file(state: dict) -> None:
 
 
 def translate_file(
-    file_input,
+    file_inputs,
     service,
     page_range,
     page_input,
@@ -88,33 +89,32 @@ def translate_file(
     threads,
     skip_subset_fonts,
     ignore_cache,
-    recaptcha_response,
+    use_babeldoc,
     state,
     progress=gr.Progress(),
     *envs,
 ):
-    """Gradio界面的翻译核心函数"""
+    """Gradio界面的翻译核心函数 (支持批量处理)"""
     session_id = uuid.uuid4()
     state["session_id"] = session_id
     cancellation_event_map[session_id] = asyncio.Event()
 
-    progress(0, desc="开始翻译...")
+    progress(0, desc="开始批量翻译...")
 
-    if not file_input:
-        raise gr.Error("没有输入文件，请上传一个PDF文件。")
+    if not file_inputs:
+        raise gr.Error("没有输入文件，请上传一个或多个PDF文件。")
 
     output_dir = Path("output")
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    # Gradio 的 file 组件返回的是一个临时路径，需要复制
-    try:
-        file_path = shutil.copy(file_input.name, output_dir)
-    except AttributeError:
-         raise gr.Error("文件输入无效，请重新上传。")
-
-    filename = Path(file_path).stem
-    file_mono = output_dir / f"{filename}-mono.pdf"
-    file_dual = output_dir / f"{filename}-dual.pdf"
+    source_paths = []
+    for f in file_inputs:
+        try:
+            # Gradio 的 file 组件返回的是一个临时路径，需要复制
+            copied_path = shutil.copy(f.name, output_dir)
+            source_paths.append(copied_path)
+        except AttributeError:
+             raise gr.Error("文件输入无效，请重新上传。")
 
     translator_cls = service_map[service]
 
@@ -157,7 +157,7 @@ def translate_file(
     try:
         # 准备翻译参数
         param = {
-            "files": [str(file_path)],
+            "files": source_paths,
             "pages": selected_pages,
             "lang_in": LANG_FROM,
             "lang_out": LANG_TO,
@@ -174,25 +174,51 @@ def translate_file(
         }
         
         # 调用核心翻译函数
-        translate(**param)
+        result_files = translate(**param)
         
-        if not file_mono.exists() or not file_dual.exists():
+        if not result_files:
             raise gr.Error("翻译输出文件未生成，请检查后台日志。")
 
+        progress(0.9, desc="打包文件中...")
+        
+        # --- Zipping logic ---
+        zip_output_dir = Path("output")
+        zip_output_dir.mkdir(exist_ok=True)
+        zip_path = zip_output_dir / f"translation_{session_id}.zip"
+        
+        temp_zip_src_dir = zip_output_dir / f"temp_{session_id}"
+        mono_dir = temp_zip_src_dir / "单语版本"
+        dual_dir = temp_zip_src_dir / "双语版本"
+        mono_dir.mkdir(parents=True, exist_ok=True)
+        dual_dir.mkdir(parents=True, exist_ok=True)
+        
+        for mono_path, dual_path in result_files:
+            if Path(mono_path).exists():
+                shutil.copy(mono_path, mono_dir)
+            if Path(dual_path).exists():
+                shutil.copy(dual_path, dual_dir)
+        
+        shutil.make_archive(
+            base_name=str(zip_path.with_suffix('')), 
+            format='zip', 
+            root_dir=temp_zip_src_dir
+        )
+        
+        shutil.rmtree(temp_zip_src_dir)
+
         progress(1.0, desc="翻译完成！")
+        
+        first_mono_file = result_files[0][0] if result_files else None
 
         return (
-            str(file_mono), # 更新预览窗口
-            gr.update(value=str(file_mono), visible=True), # 单语下载链接
-            gr.update(value=str(file_dual), visible=True), # 双语下载链接
-            gr.update(visible=True), # 显示标题
+            str(first_mono_file),
+            gr.update(value=str(zip_path), visible=True),
+            gr.update(visible=True),
         )
     except Exception as e:
-        logger.error(f"翻译过程中发生错误: {e}")
-        # 在界面上向用户显示一个更友好的错误消息
+        logger.error(f"翻译过程中发生错误: {e}", exc_info=True)
         raise gr.Error(f"翻译失败: {e}")
     finally:
-        # 清理取消事件
         if session_id in cancellation_event_map:
             del cancellation_event_map[session_id]
 
@@ -212,8 +238,8 @@ with gr.Blocks(title="NexTranslation", css=custom_css) as demo:
         with gr.Column(scale=1):
             gr.Markdown("### 1. 上传文件和选择服务")
             file_input = gr.File(
-                label="上传PDF文件",
-                file_count="single",
+                label="上传一个或多个PDF文件",
+                file_count="multiple",
                 file_types=[".pdf"],
                 elem_classes=["input-file"],
             )
@@ -225,16 +251,11 @@ with gr.Blocks(title="NexTranslation", css=custom_css) as demo:
                 interactive=True,
             )
             
-            # 动态生成环境变量输入框
             envs_inputs = []
-            with gr.Group() as envs_group:
-                # 预先创建所有可能的输入框，然后根据选择的服务显示/隐藏
+            with gr.Group():
                 for service_name, translator_cls in service_map.items():
                     for env_key, default_val in translator_cls.envs.items():
-                        # 从配置加载值
                         config_val = config_manager.get_env_by_translatername(translator_cls, env_key, default_val)
-                        
-                        # 如果需要隐藏，且有值，则显示***
                         is_api_key = "API_KEY" in env_key.upper()
                         display_val = "***" if hidden_gradio_details and is_api_key and config_val else config_val
                         
@@ -274,7 +295,7 @@ with gr.Blocks(title="NexTranslation", css=custom_css) as demo:
                     label="自定义LLM提示 (留空使用默认)", lines=3
                 )
                 use_babeldoc = gr.Checkbox(
-                    label="使用 BabelDOC (实验性)", value=False, visible=False # 暂时隐藏
+                    label="使用 BabelDOC (实验性)", value=False, visible=False
                 )
 
             translate_btn = gr.Button("开始翻译", variant="primary")
@@ -283,43 +304,40 @@ with gr.Blocks(title="NexTranslation", css=custom_css) as demo:
         with gr.Column(scale=2):
             gr.Markdown("### 3. 预览和下载")
             output_title = gr.Markdown("## 翻译结果", visible=False)
-            preview = PDF(label="翻译预览", visible=True, height=2000)
-            output_file_mono = gr.File(
-                label="下载单语版本", visible=False
-            )
-            output_file_dual = gr.File(
-                label="下载双语版本", visible=False
+            preview = PDF(label="翻译预览 (仅显示第一个文件)", visible=True, height=2000)
+            output_zip = gr.File(
+                label="下载所有翻译结果 (ZIP)", visible=False
             )
     
     # --- 事件处理 ---
     state = gr.State({"session_id": None})
     
-    # 文件上传后直接在预览窗口显示
-    file_input.upload(lambda x: x, inputs=file_input, outputs=preview)
+    file_input.upload(lambda files: files[0].name if files else None, inputs=file_input, outputs=preview)
 
-    # 切换页面范围选项时，显示/隐藏自定义输入框
     page_range.select(
         lambda choice: gr.update(visible=choice == "自定义"),
         inputs=page_range,
         outputs=page_input,
     )
 
-    # 切换翻译服务时，更新环境变量输入框的可见性
     def on_select_service(service_choice):
         updates = []
         for service_name, translator_cls in service_map.items():
             for _ in translator_cls.envs:
                 updates.append(gr.update(visible=service_name.lower() == service_choice.lower()))
-        return updates if len(updates) > 1 else updates[0] # Gradio 需要正确的返回格式
+        
+        if not updates:
+            return None # No envs for any service
+        
+        return updates[0] if len(updates) == 1 else updates
 
     if len(envs_inputs) > 0:
         service.select(
             on_select_service,
             service,
-            envs_inputs,
+            outputs=envs_inputs,
         )
 
-    # 点击翻译按钮
     translate_btn.click(
         translate_file,
         inputs=[
@@ -327,10 +345,9 @@ with gr.Blocks(title="NexTranslation", css=custom_css) as demo:
             prompt, threads, skip_subset_fonts, ignore_cache, use_babeldoc,
             state, *envs_inputs
         ],
-        outputs=[preview, output_file_mono, output_file_dual, output_title],
+        outputs=[preview, output_zip, output_title],
     )
 
-    # 点击取消按钮
     cancellation_btn.click(stop_translate_file, inputs=[state])
 
 # --- 启动函数 ---
@@ -338,10 +355,10 @@ def setup_gui(server_port=7860, share=False):
     """启动Gradio界面"""
     try:
         demo.launch(
-            server_name="0.0.0.0", # 允许局域网访问
+            server_name="0.0.0.0",
             server_port=server_port,
             inbrowser=True,
-            share=share, # 控制是否创建公网链接
+            share=share,
             debug=True,
         )
     except Exception as e:
@@ -356,7 +373,6 @@ def setup_gui(server_port=7860, share=False):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    # 可以通过命令行参数控制端口和分享
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=7860)

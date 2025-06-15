@@ -65,7 +65,7 @@ def main():
     parser.add_argument(
         "files",
         type=str,
-        nargs="+",
+        nargs="*",
         help="一个或多个输入 PDF 文件的路径。",
     )
     parser.add_argument(
@@ -140,8 +140,29 @@ def main():
         action="version",
         version=f"NexTranslation v{__version__}",
     )
+    parser.add_argument(
+        "--gui",
+        action="store_true",
+        default=False,
+        help="启动图形用户界面 (GUI) 模式。",
+    )
 
     args = parser.parse_args()
+
+    if args.gui:
+        try:
+            from nex_translation.presentation.gui import setup_gui
+            setup_gui(server_port=7860, share=False)
+            sys.exit(0)
+        except ImportError:
+            logger.error("GUI 依赖未安装。请安装 'gradio' 和 'gradio-pdf' 以使用 GUI 功能。")
+            sys.exit(1)
+
+    # 如果不是 GUI 模式，并且没有提供文件，则报错
+    if not args.gui and not args.files:
+        logger.error("在命令行模式下，必须提供一个或多个输入 PDF 文件。使用 --help 查看用法。")
+        parser.print_help()
+        sys.exit(1)
 
     # --- 设置 ---
     if args.debug:

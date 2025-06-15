@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "NexTranslation"
 version = "0.3.0"
@@ -16,20 +20,22 @@ classifiers = [
 ]
 requires-python = ">=3.11,<3.13"
 dependencies = [
-    "pymupdf<1.25.3",
-    "tqdm",
-    "tenacity",
-    "numpy",
+    "babeldoc==0.3.59",
+    "fontTools==4.58.1",
+    "numpy==2.2.6",
+    "onnx==1.18.0",
+    "onnxruntime==1.22.0",
+    "opencv-python==4.11.0.86",
+    "peewee==3.18.1",
+    "pdfminer.six==20250416",
+    "pymupdf==1.25.2",
+    "requests==2.32.3",
+    "rich==14.0.0",
+    "tenacity==9.1.2",
+    "tqdm==4.67.1",
+    "gradio-pdf==0.0.22",
     "gradio==5.32.1",
-    "pdfminer.six>=20240706",
-    "peewee>=3.17.8",
-    "rich",
-    "onnx",          
-    "onnxruntime",  
-    "requests",     
-    "babeldoc",
-    "pymupdf<1.25.3",
-    "fontTools"
+    "pikepdf==9.8.1",
 ]
 
 [project.optional-dependencies]
@@ -42,9 +48,6 @@ dev = [
     "isort",
     "pyinstaller",
 ]
-gui = [
-    "pikepdf",
-]
 
 [project.urls]
 "Homepage" = "https://github.com/Ao-chii/NexTranslation"
@@ -53,9 +56,7 @@ gui = [
 [project.scripts]
 nex-translate = "nex_translation.presentation.cli:main"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/nex_translation"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["nex_translation*"]
+namespaces = false

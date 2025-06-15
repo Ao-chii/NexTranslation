@@ -7,4 +7,3 @@ logger = get_logger(__name__)
 __version__ = "0.3.0"
 __author__ = "Ao-chii"
 __email__ = "2543327978@qq.com"
-__all__ = ["translate", "translate_stream"]

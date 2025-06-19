@@ -25,7 +25,7 @@
 ```bash
 pip install -i https://test.pypi.org/simple/ NexTranslation
 ```
-如果安装后显示`ERROR: No matching distribution found for babeldoc==0.3.59`，可以自己尝试以下命令或者直接无视该错误
+如果安装后显示`ERROR: No matching distribution found for babeldoc==0.3.59`，可以自己尝试以下命令或者直接无视该错误：
 ```bash
 pip install babeldoc==0.3.59
 ```

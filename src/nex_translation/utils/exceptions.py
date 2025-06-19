@@ -5,6 +5,7 @@
 2. 翻译服务异常
 3. 资源异常
 4. 业务逻辑异常
+5. 通用异常
 """
 from typing import Optional, Dict, Any
 from datetime import datetime

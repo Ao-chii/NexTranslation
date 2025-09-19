@@ -1,6 +1,6 @@
 <div align="center">
   <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0;">
-    <img src="logo.png" alt="SafePilot Logo" width="70" height="70" style="flex-shrink: 0;">
+    <img src="logo.png" alt="SafePilot Logo" width="100" height="100" style="flex-shrink: 0;">
     <div style="text-align: left;">
       <h1 style="margin: 0; padding: 0;">NexTranslation</h1>
     </div>

@@ -1,9 +1,13 @@
-<h1 align="center">NexTranslation</h1>
+<div align="center">
+  <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0;">
+    <img src="logo.png" alt="SafePilot Logo" width="70" height="70" style="flex-shrink: 0;">
+    <div style="text-align: left;">
+      <h1 style="margin: 0; padding: 0;">NexTranslation</h1>
+    </div>
+  </div>
+</div>
 
-
-<p align="center">
-  📖 一个能够保留文档排版的智能 PDF 文档翻译工具，支持 GUI 和命令行操作。
-</p>
+<p align="center">📖 一个能够保留文档排版的智能 PDF 文档翻译工具，支持 GUI 和命令行操作。</p>
 
 `NexTranslation` 旨在解决翻译 PDF 文档时排版混乱的痛点。它利用先进的文档布局分析技术，能够精确识别文本块、图片、表格甚至公式，在翻译后尽可能地还原文档的原始外观，提供流畅的阅读体验。
 
